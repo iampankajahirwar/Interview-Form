@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Interview Registration | साक्षात्कार पंजीकरण</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --saffron:       #F77F00;
+    --saffron-deep:  #E06D00;
+    --saffron-light: #FFA733;
+    --saffron-bg:    #FFF3E0;
+    --saffron-pale:  #FFF8F0;
+    --amber:         #D62828;
+    --gold:          #FFB300;
+    --cream:         #FFFCF7;
+    --surface:       #FFFFFF;
+    --surface2:      #FFF8F0;
+    --border:        #F0D9BC;
+    --border-focus:  #F77F00;
+    --text:          #1E1206;
+    --text-mid:      #5A3E28;
+    --text-dim:      #9E7A55;
+    --text-faint:    #C9A87A;
+    --red:           #D62828;
+    --green:         #2E7D32;
+    --radius:        14px;
+    --radius-sm:     9px;
+    --shadow-sm:     0 1px 4px rgba(247,127,0,0.08);
+    --shadow:        0 4px 24px rgba(247,127,0,0.12);
+    --shadow-lg:     0 8px 40px rgba(247,127,0,0.18);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
+    background: var(--saffron-bg);
+    background-image:
+      radial-gradient(ellipse 80% 40% at 50% -10%, rgba(247,127,0,0.12) 0%, transparent 60%);
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #F77F00 0%, #E06D00 60%, #C45C00 100%);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(247,127,0,0.35);
+  }
+  .header-inner {
+    max-width: 780px; margin: 0 auto;
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .header-logo {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    backdrop-filter: blur(4px);
+  }
+  .header-text h1 {
+    font-size: 16px; font-weight: 800; color: #fff;
+    letter-spacing: -0.2px;
+  }
+  .header-text p {
+    font-size: 12px; color: rgba(255,255,255,0.78);
+    font-family: 'Noto Sans Devanagari', sans-serif; margin-top: 1px;
+  }
+  .header-badge {
+    margin-left: auto; flex-shrink: 0;
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    color: #fff; font-size: 11px; font-weight: 700;
+    padding: 5px 14px; border-radius: 50px;
+    letter-spacing: 0.5px; white-space: nowrap;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    background: rgba(255,255,255,0.6);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+  .progress-bar-outer {
+    max-width: 780px; margin: 0 auto;
+    height: 4px; background: var(--border);
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--saffron-light), var(--saffron));
+    width: 0%; transition: width 0.4s ease;
+    border-radius: 0 3px 3px 0;
+    box-shadow: 0 0 8px rgba(247,127,0,0.5);
+  }
+
+  /* ── STEP INDICATOR ── */
+  .step-label {
+    max-width: 780px; margin: 0 auto;
+    padding: 6px 20px;
+    font-size: 11px; font-weight: 600; color: var(--text-dim);
+    display: flex; justify-content: space-between;
+  }
+  #progress-text { color: var(--saffron-deep); font-weight: 700; }
+
+  /* ── WRAPPER ── */
+  .form-wrapper { max-width: 780px; margin: 22px auto 100px; padding: 0 16px; }
+
+  /* ── SECTION CARD ── */
+  .section-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .section-card:hover {
+    box-shadow: var(--shadow);
+    border-color: #F0C090;
+  }
+  .section-title {
+    background: linear-gradient(to right, var(--saffron-pale), #FFF);
+    border-bottom: 1.5px solid var(--border);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 9px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.9px; text-transform: uppercase;
+    color: var(--saffron-deep);
+  }
+  .section-icon {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(247,127,0,0.3);
+  }
+  .section-title .hint {
+    font-size: 11px; font-weight: 400;
+    letter-spacing: 0; text-transform: none;
+    color: var(--text-dim);
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    margin-left: 2px;
+  }
+  .section-body { padding: 20px; }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-1 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media(max-width: 560px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ── FIELD ── */
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 13px; font-weight: 700; color: var(--text-mid); line-height: 1.3;
+  }
+  .field label .hindi {
+    display: block; font-size: 11px; font-weight: 400;
+    color: var(--text-faint);
+    font-family: 'Noto Sans Devanagari', sans-serif; margin-top: 2px;
+  }
+  .field label .req { color: var(--saffron); margin-left: 2px; }
+
+  input[type="text"], input[type="number"], input[type="date"],
+  input[type="email"], input[type="tel"], select {
+    width: 100%; padding: 11px 14px;
+    background: var(--saffron-pale);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px; font-family: inherit;
+    color: var(--text); outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    -webkit-appearance: none; appearance: none;
+  }
+  input:focus, select:focus {
+    border-color: var(--saffron);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(247,127,0,0.12);
+  }
+  input::placeholder { color: var(--text-faint); }
+  input[readonly] {
+    background: #F5EAD8; opacity: 0.7; cursor: not-allowed;
+    border-style: dashed;
+  }
+  select option { background: #fff; color: var(--text); }
+  input.error, select.error {
+    border-color: var(--red) !important;
+    background: #FFF5F5 !important;
+  }
+  .error-msg {
+    font-size: 11.5px; color: var(--red); display: none; margin-top: 1px;
+    font-weight: 500;
+  }
+  .error-msg.show { display: block; }
+
+  /* ── RADIO PILLS ── */
+  .radio-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+  .radio-pill {
+    display: flex; align-items: center; gap: 7px;
+    padding: 8px 15px;
+    background: var(--saffron-pale);
+    border: 1.5px solid var(--border);
+    border-radius: 50px; cursor: pointer;
+    font-size: 13px; font-weight: 600; color: var(--text-mid);
+    transition: all 0.15s; user-select: none;
+  }
+  .radio-pill input { display: none; }
+  .radio-pill:hover {
+    border-color: var(--saffron);
+    color: var(--saffron-deep);
+    background: #FFF0D6;
+  }
+  .radio-pill.selected {
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
+    border-color: var(--saffron-deep);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(247,127,0,0.3);
+  }
+
+  /* ── DEPENDENT ── */
+  .dep-field { display: none; }
+  .dep-field.visible {
+    display: flex; flex-direction: column; gap: 6px;
+    animation: slideIn 0.2s ease;
+  }
+  @keyframes slideIn {
+    from { opacity:0; transform:translateY(-6px); }
+    to   { opacity:1; transform:translateY(0);    }
+  }
+
+  /* ── SUBMIT ── */
+  .submit-wrap { padding: 4px 0 0; }
+  .submit-btn {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, var(--saffron-light) 0%, var(--saffron) 50%, var(--saffron-deep) 100%);
+    color: #fff; border: none;
+    border-radius: var(--radius);
+    font-size: 15px; font-weight: 800;
+    cursor: pointer; font-family: inherit;
+    letter-spacing: 0.2px;
+    transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+    box-shadow: 0 4px 20px rgba(247,127,0,0.4);
+  }
+  .submit-btn:hover {
+    opacity: 0.93;
+    box-shadow: 0 6px 28px rgba(247,127,0,0.5);
+  }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ── SUCCESS ── */
+  #success-screen {
+    display: none; max-width: 480px;
+    margin: 48px auto 100px; padding: 0 16px; text-align: center;
+  }
+  .success-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    padding: 40px 28px;
+    overflow: hidden; position: relative;
+  }
+  .success-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 5px;
+    background: linear-gradient(90deg, var(--saffron-light), var(--saffron), var(--gold));
+  }
+  .success-icon {
+    font-size: 58px; margin-bottom: 16px;
+    display: block;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .success-card h2 {
+    font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 8px;
+  }
+  .success-card .sub {
+    color: var(--text-mid); font-size: 14px; margin-bottom: 22px; line-height: 1.7;
+    font-family: 'Noto Sans Devanagari', sans-serif;
+  }
+  .ref-badge {
+    display: inline-block;
+    background: var(--saffron-bg);
+    border: 2px solid var(--saffron);
+    color: var(--saffron-deep); font-size: 15px; font-weight: 800;
+    padding: 10px 28px; border-radius: 50px; margin-bottom: 26px;
+    letter-spacing: 2px;
+    box-shadow: 0 2px 12px rgba(247,127,0,0.2);
+  }
+  .qr-box {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px; display: inline-block; margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+  }
+  .qr-label { font-size: 12px; color: var(--text-faint); margin-bottom: 24px; display: block; }
+  .new-btn {
+    padding: 12px 28px;
+    background: var(--saffron-pale);
+    color: var(--saffron-deep);
+    border: 1.5px solid var(--saffron);
+    border-radius: var(--radius-sm);
+    font-size: 13px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    transition: background 0.15s, box-shadow 0.15s;
+  }
+  .new-btn:hover {
+    background: #FFF0D6;
+    box-shadow: 0 2px 12px rgba(247,127,0,0.2);
+  }
+
+  /* ── DIVIDER BETWEEN FIELDS ── */
+  .field-group-gap { margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-logo">🎯</div>
+    <div class="header-text">
+      <h1>Candidate Registration Form</h1>
+      <p>उम्मीदवार पंजीकरण फॉर्म</p>
+    </div>
+    <div class="header-badge">Interview Day</div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+  <div class="progress-bar-outer">
+    <div class="progress-fill" id="progress"></div>
+  </div>
+  <div class="step-label">
+    <span>Fill all required fields</span>
+    <span id="progress-text">0% complete</span>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrapper" id="form-section">
+<form id="regForm" novalidate>
+
+  <!-- 1. INTERVIEW DETAILS -->
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">📅</div>
+      Interview Details
+      <span class="hint">— साक्षात्कार विवरण</span>
+    </div>
+    <div class="section-body">
+      <div class="grid-2">
+        <div class="field">
+          <label>Date of Interview <span class="req">*</span>
+            <span class="hindi">साक्षात्कार की तारीख</span>
+          </label>
+          <input type="date" id="date_of_interview" required />
+          <span class="error-msg" id="err_doi">⚠ Please select interview date</span>
+        </div>
+        <div class="field">
+          <label>Post Applied For <span class="req">*</span>
+            <span class="hindi">जिस पद के लिए आए हैं</span>
+          </label>
+          <select id="designation" required>
+            <option value="">— Select Post —</option>
+            <option>Social Media Support Executive</option>
+            <option>Team Leader</option>
+            <option>Office Boy / Office Girl</option>
+            <option>Security Guard</option>
+            <option>Agent</option>
+            <option>Typist</option>
+          </select>
+          <span class="error-msg" id="err_desig">⚠ Please select a post</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. JOB REFERENCE -->
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">📢</div>
+      Job Reference
+      <span class="hint">— नौकरी का संदर्भ</span>
+    </div>
+    <div class="section-body grid-1">
+      <div class="field">
+        <label>How did you hear about this job? <span class="req">*</span>
+          <span class="hindi">आपको इस नौकरी के बारे में कैसे पता चला?</span>
+        </label>
+        <div class="radio-group" id="job_ref_group">
+          <label class="radio-pill"><input type="radio" name="job_ref" value="Newspaper" /> 📰 Newspaper</label>
+          <label class="radio-pill"><input type="radio" name="job_ref" value="Text Msg" /> 💬 Text Msg</label>
+          <label class="radio-pill"><input type="radio" name="job_ref" value="WhatsApp" /> 📲 WhatsApp</label>
+          <label class="radio-pill"><input type="radio" name="job_ref" value="Person" /> 👤 Person</label>
+          <label class="radio-pill"><input type="radio" name="job_ref" value="Agency" /> 🏢 Agency</label>
+        </div>
+        <span class="error-msg" id="err_jobref">⚠ Please select a reference source</span>
+      </div>
+      <div class="field dep-field" id="dep_ref_name">
+        <label>Reference Name <span class="req">*</span>
+          <span class="hindi">व्यक्ति / एजेंसी का नाम</span>
+        </label>
+        <input type="text" id="job_ref_name" placeholder="Enter name of person or agency" />
+        <span class="error-msg" id="err_refname">⚠ Please enter the reference name</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. PARTY REFERENCE -->
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">🏛️</div>
+      Party Reference
+      <span class="hint">— पार्टी संदर्भ</span>
+    </div>
+    <div class="section-body grid-1">
+      <div class="field">
+        <label>Do you have a Party Reference? <span class="req">*</span>
+          <span class="hindi">क्या आपके पास पार्टी संदर्भ है?</span>
+        </label>
+        <div class="radio-group" id="party_ref_group">
+          <label class="radio-pill"><input type="radio" name="party_ref" value="Yes" /> ✅ Yes / हाँ</label>
+          <label class="radio-pill"><input type="radio" name="party_ref" value="No" /> ❌ No / नहीं</label>
+        </div>
+        <span class="error-msg" id="err_partyref">⚠ Please select Yes or No</span>
+      </div>
+      <div class="field dep-field" id="dep_party_name">
+        <label>Party Person Name <span class="req">*</span>
+          <span class="hindi">पार्टी व्यक्ति का नाम</span>
+        </label>
+        <input type="text" id="party_person_name" placeholder="Enter party person's name" />
+        <span class="error-msg" id="err_partyname">⚠ Please enter party person's name</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PERSONAL INFO -->
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">👤</div>
+      Personal Information
+      <span class="hint">— व्यक्तिगत जानकारी</span>
+    </div>
+    <div class="section-body">
+      <div class="grid-2 field-group-gap">
+        <div class="field">
+          <label>Full Name <span class="req">*</span>
+            <span class="hindi">पूरा नाम</span>
+          </label>
+          <input type="text" id="name" placeholder="Enter full name" required />
+          <span class="error-msg" id="err_name">⚠ Please enter full name</span>
+        </div>
+        <div class="field">
+          <label>Father's / Husband's Name <span class="req">*</span>
+            <span class="hindi">पिता / पति का नाम</span>
+          </label>
+          <input type="text" id="father_husband_name" placeholder="Enter name" required />
+          <span class="error-msg" id="err_fhname">⚠ Please enter this field</span>
+        </div>
+      </div>
+      <div class="grid-2 field-group-gap">
+        <div class="field">
+          <label>Gender <span class="req">*</span>
+            <span class="hindi">लिंग</span>
+          </label>
+          <div class="radio-group" id="gender_group">
+            <label class="radio-pill"><input type="radio" name="gender" value="Male" /> Male</label>
+            <label class="radio-pill"><input type="radio" name="gender" value="Female" /> Female</label>
+            <label class="radio-pill"><input type="radio" name="gender" value="Other" /> Other</label>
+          </div>
+          <span class="error-msg" id="err_gender">⚠ Please select gender</span>
+        </div>
+        <div class="field">
+          <label>Date of Birth
+            <span class="hindi">जन्म तिथि</span>
+          </label>
+          <input type="date" id="date_of_birth" />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Age
+            <span class="hindi">आयु (स्वतः भरेगा)</span>
+          </label>
+          <input type="number" id="age" placeholder="Auto-calculated" readonly />
+        </div>
+        <div class="field">
+          <label>Qualification
+            <span class="hindi">शैक्षिक योग्यता</span>
+          </label>
+          <select id="qualification">
+            <option value="">— Select —</option>
+            <option>8th Pass</option>
+            <option>10th Pass</option>
+            <option>12th Pass</option>
+            <option>Graduate</option>
+            <option>Post Graduate</option>
+            <option>Diploma</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. EXPERIENCE -->
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">💼</div>
+      Experience
+      <span class="hint">— अनुभव</span>
+    </div>
+    <div class="section-body grid-1">
+      <div class="field">
+        <label>Experience or Fresher? <span class="req">*</span>
+          <span class="hindi">अनुभवी हैं या नए?</span>
+        </label>
+        <div class="radio-group" id="exp_group">
+          <label class="radio-pill"><input type="radio" name="exp_type" value="Experienced" /> 💼 Experienced</label>
+          <label class="radio-pill"><input type="radio" name="exp_type" value="Fresher" /> 🌱 Fresher</label>
+        </div>
+        <span class="error-msg" id="err_exp">⚠ Please select experience type</span>
+      </div>
+      <div class="field dep-field" id="dep_exp_years">
+        <label>Experience in Years <span class="req">*</span>
+          <span class="hindi">अनुभव (वर्षों में)</span>
+        </label>
+        <input type="number" id="experience_years" placeholder="e.g. 3" min="0" max="50" />
+        <span class="error-msg" id="err_expyears">⚠ Please enter years of experience</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CONTACT -->
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">📱</div>
+      Contact Details
+      <span class="hint">— संपर्क विवरण</span>
+    </div>
+    <div class="section-body">
+      <div class="grid-2 field-group-gap">
+        <div class="field">
+          <label>Mobile Number <span class="req">*</span>
+            <span class="hindi">मोबाइल नंबर</span>
+          </label>
+          <input type="tel" id="mobile" placeholder="10-digit number" maxlength="10" required />
+          <span class="error-msg" id="err_mobile">⚠ Enter valid 10-digit number</span>
+        </div>
+        <div class="field">
+          <label>Alternate Mobile
+            <span class="hindi">वैकल्पिक मोबाइल</span>
+          </label>
+          <input type="tel" id="alternate_mobile" placeholder="Optional" maxlength="10" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Email ID
+          <span class="hindi">ईमेल आईडी</span>
+        </label>
+        <input type="email" id="email" placeholder="example@email.com" />
+        <span class="error-msg" id="err_email">⚠ Enter a valid email address</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. DOCUMENTS -->
+  <div class="section-card">
+    <div class="section-title">
+      <div class="section-icon">🪪</div>
+      Identity Documents
+      <span class="hint">— पहचान दस्तावेज़</span>
+    </div>
+    <div class="section-body">
+      <div class="grid-2">
+        <div class="field">
+          <label>Aadhar Number
+            <span class="hindi">आधार नंबर</span>
+          </label>
+          <input type="text" id="aadhar_number" placeholder="12-digit Aadhar" maxlength="12" />
+          <span class="error-msg" id="err_aadhar">⚠ Aadhar must be 12 digits</span>
+        </div>
+        <div class="field">
+          <label>PAN Number <span class="req">*</span>
+            <span class="hindi">पैन नंबर</span>
+          </label>
+          <input type="text" id="pan" placeholder="e.g. ABCDE1234F" maxlength="10" style="text-transform:uppercase" required />
+          <span class="error-msg" id="err_pan">⚠ Enter valid PAN (e.g. ABCDE1234F)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-wrap">
+    <button type="submit" class="submit-btn" id="submitBtn">
+      🚀 Submit Registration &nbsp;|&nbsp; पंजीकरण जमा करें
+    </button>
+  </div>
+
+</form>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div id="success-screen">
+  <div class="success-card">
+    <span class="success-icon">🎉</span>
+    <h2>Registration Successful!</h2>
+    <p class="sub">पंजीकरण सफलतापूर्वक हो गया।<br/>Your reference ID is below.</p>
+    <div class="ref-badge" id="ref-id-display">—</div>
+    <br/><br/>
+    <div class="qr-box">
+      <div id="qrcode"></div>
+    </div>
+    <span class="qr-label">Scan QR for your registration receipt | रसीद के लिए QR स्कैन करें</span>
+    <br/>
+    <button class="new-btn" onclick="resetForm()">+ Register Another Candidate | नया पंजीकरण</button>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://qyjxkcyttmrtsjnjzjdk.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5anhrY3l0dG1ydHNqbmp6amRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNTM5NDAsImV4cCI6MjA5NzYyOTk0MH0._vhuYuKxRG-biO3whjsTQ_3B2QMj4Asx1SK6SRpc7JI';
+  const TABLE = 'interview_registrations';
+
+  // RADIO PILL SELECTION
+  document.querySelectorAll('.radio-group').forEach(group => {
+    group.querySelectorAll('.radio-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        group.querySelectorAll('.radio-pill').forEach(p => p.classList.remove('selected'));
+        pill.classList.add('selected');
+        pill.querySelector('input').checked = true;
+        handleDependents();
+        updateProgress();
+      });
+    });
+  });
+
+  // DEPENDENT FIELDS
+  function handleDependents() {
+    const jobRef = document.querySelector('input[name="job_ref"]:checked');
+    const showRef = jobRef && (jobRef.value === 'Person' || jobRef.value === 'Agency');
+    document.getElementById('dep_ref_name').classList.toggle('visible', showRef);
+    if (!showRef) document.getElementById('job_ref_name').value = '';
+
+    const partyRef = document.querySelector('input[name="party_ref"]:checked');
+    const showParty = partyRef && partyRef.value === 'Yes';
+    document.getElementById('dep_party_name').classList.toggle('visible', showParty);
+    if (!showParty) document.getElementById('party_person_name').value = '';
+
+    const expType = document.querySelector('input[name="exp_type"]:checked');
+    const showExp = expType && expType.value === 'Experienced';
+    document.getElementById('dep_exp_years').classList.toggle('visible', showExp);
+    if (!showExp) document.getElementById('experience_years').value = '';
+  }
+
+  // AUTO AGE FROM DOB
+  document.getElementById('date_of_birth').addEventListener('change', function () {
+    const dob = new Date(this.value);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    document.getElementById('age').value = age > 0 ? age : '';
+  });
+
+  // PAN UPPERCASE
+  document.getElementById('pan').addEventListener('input', function () {
+    this.value = this.value.toUpperCase();
+  });
+
+  // PROGRESS BAR
+  function updateProgress() {
+    const fields = ['date_of_interview', 'designation', 'name', 'father_husband_name', 'mobile', 'pan'];
+    const radios = ['job_ref', 'party_ref', 'gender', 'exp_type'];
+    let filled = 0, total = fields.length + radios.length;
+    fields.forEach(id => { if (document.getElementById(id).value.trim()) filled++; });
+    radios.forEach(n => { if (document.querySelector(`input[name="${n}"]:checked`)) filled++; });
+    const pct = Math.round((filled / total) * 100);
+    document.getElementById('progress').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = pct + '% complete';
+  }
+  document.querySelectorAll('input, select').forEach(el => el.addEventListener('change', updateProgress));
+  document.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]').forEach(el => el.addEventListener('input', updateProgress));
+
+  // VALIDATION
+  function showErr(id, show) { document.getElementById(id).classList.toggle('show', show); }
+  function clearErrors() {
+    document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('input, select').forEach(e => e.classList.remove('error'));
+  }
+
+  function validate() {
+    clearErrors(); let valid = true;
+    const req = (id, errId) => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) { showErr(errId, true); el.classList.add('error'); valid = false; }
+    };
+    req('date_of_interview', 'err_doi');
+    req('designation', 'err_desig');
+    req('name', 'err_name');
+    req('father_husband_name', 'err_fhname');
+
+    const mob = document.getElementById('mobile').value.trim();
+    if (!/^\d{10}$/.test(mob)) { showErr('err_mobile', true); document.getElementById('mobile').classList.add('error'); valid = false; }
+
+    const pan = document.getElementById('pan').value.trim();
+    if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(pan)) { showErr('err_pan', true); document.getElementById('pan').classList.add('error'); valid = false; }
+
+    const aadhar = document.getElementById('aadhar_number').value.trim();
+    if (aadhar && !/^\d{12}$/.test(aadhar)) { showErr('err_aadhar', true); document.getElementById('aadhar_number').classList.add('error'); valid = false; }
+
+    const email = document.getElementById('email').value.trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('err_email', true); document.getElementById('email').classList.add('error'); valid = false; }
+
+    if (!document.querySelector('input[name="job_ref"]:checked'))   { showErr('err_jobref', true);   valid = false; }
+    if (!document.querySelector('input[name="party_ref"]:checked')) { showErr('err_partyref', true); valid = false; }
+    if (!document.querySelector('input[name="gender"]:checked'))    { showErr('err_gender', true);   valid = false; }
+    if (!document.querySelector('input[name="exp_type"]:checked'))  { showErr('err_exp', true);      valid = false; }
+
+    const jobRefVal = document.querySelector('input[name="job_ref"]:checked');
+    if (jobRefVal && (jobRefVal.value === 'Person' || jobRefVal.value === 'Agency')) {
+      if (!document.getElementById('job_ref_name').value.trim()) { showErr('err_refname', true); document.getElementById('job_ref_name').classList.add('error'); valid = false; }
+    }
+    const partyRefVal = document.querySelector('input[name="party_ref"]:checked');
+    if (partyRefVal && partyRefVal.value === 'Yes') {
+      if (!document.getElementById('party_person_name').value.trim()) { showErr('err_partyname', true); document.getElementById('party_person_name').classList.add('error'); valid = false; }
+    }
+    const expTypeVal = document.querySelector('input[name="exp_type"]:checked');
+    if (expTypeVal && expTypeVal.value === 'Experienced') {
+      if (!document.getElementById('experience_years').value.trim()) { showErr('err_expyears', true); document.getElementById('experience_years').classList.add('error'); valid = false; }
+    }
+    return valid;
+  }
+
+  // SUBMIT
+  document.getElementById('regForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!validate()) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Submitting... | जमा हो रहा है...';
+
+    const data = {
+      name:                document.getElementById('name').value.trim(),
+      mobile:              document.getElementById('mobile').value.trim(),
+      alternate_mobile:    document.getElementById('alternate_mobile').value.trim() || null,
+      email:               document.getElementById('email').value.trim() || null,
+      date_of_interview:   document.getElementById('date_of_interview').value,
+      date_of_birth:       document.getElementById('date_of_birth').value || null,
+      age:                 document.getElementById('age').value ? parseInt(document.getElementById('age').value) : null,
+      gender:              document.querySelector('input[name="gender"]:checked').value,
+      job_reference_type:  document.querySelector('input[name="job_ref"]:checked').value,
+      job_reference_name:  document.getElementById('job_ref_name').value.trim() || null,
+      party_reference:     document.querySelector('input[name="party_ref"]:checked').value === 'Yes',
+      party_person_name:   document.getElementById('party_person_name').value.trim() || null,
+      father_husband_name: document.getElementById('father_husband_name').value.trim(),
+      designation:         document.getElementById('designation').value,
+      qualification:       document.getElementById('qualification').value || null,
+      experience_type:     document.querySelector('input[name="exp_type"]:checked').value,
+      experience_years:    document.getElementById('experience_years').value ? parseFloat(document.getElementById('experience_years').value) : null,
+      aadhar_number:       document.getElementById('aadhar_number').value.trim() || null,
+      pan_number:          document.getElementById('pan').value.trim(),
+    };
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) { const err = await res.json(); throw new Error(err.message || 'Submission failed'); }
+      const result = await res.json();
+      showSuccess(result[0]?.id || 'REF-' + Date.now(), data.name);
+    } catch (err) {
+      alert('❌ Error: ' + err.message + '\n\nPlease check Supabase table setup and try again.');
+      btn.disabled = false;
+      btn.textContent = '🚀 Submit Registration | पंजीकरण जमा करें';
+    }
+  });
+
+  // SUCCESS + QR
+  function showSuccess(refId, name) {
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    const shortId = refId.substring(0, 8).toUpperCase();
+    document.getElementById('ref-id-display').textContent = 'REF: ' + shortId;
+    document.getElementById('qrcode').innerHTML = '';
+    new QRCode(document.getElementById('qrcode'), {
+      text: `Candidate: ${name} | Ref: ${refId} | Date: ${new Date().toLocaleDateString('en-IN')}`,
+      width: 180, height: 180,
+      colorDark: '#1E1206', colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetForm() {
+    document.getElementById('regForm').reset();
+    document.querySelectorAll('.radio-pill').forEach(p => p.classList.remove('selected'));
+    document.querySelectorAll('.dep-field').forEach(d => d.classList.remove('visible'));
+    clearErrors();
+    document.getElementById('form-section').style.display = 'block';
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('submitBtn').textContent = '🚀 Submit Registration | पंजीकरण जमा करें';
+    document.getElementById('progress').style.width = '0%';
+    document.getElementById('progress-text').textContent = '0% complete';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

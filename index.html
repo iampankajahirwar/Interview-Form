@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPVerse — Your City. Your Voice. Your Vibe.</title>
+<meta name="description" content="UPVerse: Gen-Z ka apna UP. Daily tea, memes, real solutions, games and your city squad. बात करो, सवाल करो, UP के Next Chapter में कमाल करो!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Space+Grotesk:wght@400;500;700&family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1C1B1F;
+  --paper:#F7F5F0;
+  --paper2:#EFECE5;
+  --cream:#F3EFE7;
+  --line:#DCD7CD;
+  --muted:#5F5B66;
+  --saffron:#E8632B;   /* the one accent */
+  --peach:#F6DDCB;     /* accent tint */
+  --pink:#E8632B;
+  --lime:#F6DDCB;
+  --sky:#ECE9E2;
+  --violet:#2A2830;
+  --yellow:#F6DDCB;
+  --white:#fff;
+  --shadow: 0 1px 2px rgba(28,27,31,.05), 0 10px 28px rgba(28,27,31,.08);
+  --shadow-sm: 0 1px 2px rgba(28,27,31,.06), 0 4px 12px rgba(28,27,31,.08);
+  --shadow-hover: 0 2px 4px rgba(28,27,31,.06), 0 16px 36px rgba(28,27,31,.12);
+  --r:22px;
+  --font-display:'Bricolage Grotesque','Baloo 2',system-ui,sans-serif;
+  --font-hindi:'Baloo 2','Bricolage Grotesque',system-ui,sans-serif;
+  --font-body:'Space Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.5;overflow-x:hidden;
+  }
+
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--font-display);line-height:1.05;letter-spacing:-.02em}
+.wrap{width:min(1180px,92vw);margin:0 auto}
+section{padding:80px 0;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;background:var(--peach);color:var(--saffron);padding:6px 14px;border-radius:999px;margin-bottom:16px}
+.h2{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;margin-bottom:10px}
+.sub{font-size:1.15rem;max-width:620px;color:var(--muted)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:1.02rem;border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;background:var(--white);color:var(--ink);white-space:nowrap}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-hover)}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn-primary{background:var(--saffron);color:var(--white);border-color:var(--saffron)}
+.btn-lime{background:var(--peach)}
+.btn-pink{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.btn-ink{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.btn-sky{background:var(--paper2)}
+.btn-sm{padding:9px 16px;font-size:.9rem;box-shadow:var(--shadow-sm)}
+.btn-sm:hover{box-shadow:var(--shadow)}
+.btn-wa{background:var(--white);color:var(--ink)}
+
+/* Sticker cards */
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;position:relative;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translate(-3px,-3px);box-shadow:var(--shadow-hover)}
+.tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--white)}
+.tilt-l{transform:rotate(-1deg)}.tilt-r{transform:rotate(1deg)}
+.tilt-l:hover{transform:rotate(-1deg) translate(-3px,-3px)}
+.tilt-r:hover{transform:rotate(1deg) translate(-3px,-3px)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
+.logo{font-family:var(--font-display);font-weight:800;font-size:1.6rem;display:flex;align-items:center;gap:8px;letter-spacing:-.03em}
+.logo span{background:var(--saffron);color:#fff;padding:0 8px;border-radius:8px;transform:rotate(-3deg);display:inline-block}
+.nav-links{display:flex;gap:6px;list-style:none;flex-wrap:wrap}
+.nav-links a{padding:8px 12px;border-radius:999px;font-weight:600;font-size:.92rem;border:2px solid transparent}
+.nav-links a:hover{background:var(--paper2)}
+.nav-cta{display:flex;gap:10px}
+.burger{display:none;background:none;border:1px solid var(--line);border-radius:12px;width:44px;height:44px;font-size:1.3rem}
+@media(max-width:960px){.nav-links{display:none}.nav-cta .btn:not(.keep){display:none}.burger{display:block}
+  .nav-links.open{display:flex;position:absolute;top:70px;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);flex-direction:column;padding:16px;gap:4px}}
+
+/* TICKER */
+.ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;position:relative}
+.ticker-track{display:inline-flex;animation:tick 32s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track a{display:inline-flex;align-items:center;gap:12px;padding:12px 28px;font-weight:700;font-size:.98rem;transition:background .2s}
+.ticker-track a:hover{background:var(--saffron);color:#fff}
+.ticker-track a .dot{width:7px;height:7px;border-radius:50%;background:var(--saffron)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* HERO */
+.quick-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.quick-links a{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:var(--white);border:1px solid var(--line);font-size:.9rem;font-weight:600;transition:all .15s}
+.quick-links a:hover{border-color:var(--saffron);background:var(--peach)}
+.quick-links a b{color:var(--saffron)}
+/* GAMES TEASER */
+.games-teaser{padding-top:0}
+.teaser{display:grid;grid-template-columns:1.4fr auto auto;gap:30px;align-items:center;background:var(--ink);color:var(--paper);padding:40px}
+.teaser .h2{color:var(--white)}
+.teaser .sub{color:#B9B5C2}
+.teaser .eyebrow{background:rgba(255,255,255,.1);color:var(--peach)}
+.teaser-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.teaser-tiles span{width:70px;height:70px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font-size:2rem}
+@media(max-width:900px){.teaser{grid-template-columns:1fr}.teaser-tiles{grid-template-columns:repeat(4,1fr)}}
+
+.hero{padding:70px 0 90px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,6.2vw,5rem);font-weight:800;line-height:1.05;margin:18px 0 20px}
+.hero h1 .hi{font-family:var(--font-hindi);font-weight:800;display:block}
+.hero h1 .mark{background:var(--peach);padding:0 .15em;border-radius:12px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero h1 .mark2{background:var(--saffron);color:#fff;padding:0 .15em;border-radius:12px;transform:rotate(-1.5deg);display:inline-block}
+.hero p.lead{font-size:1.2rem;max-width:560px;margin-bottom:30px;color:var(--muted)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.hero-proof{display:flex;align-items:center;gap:12px;font-weight:600;font-size:.95rem}
+.avatars{display:flex}
+.avatars span{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);margin-left:-10px;display:grid;place-items:center;font-size:1rem}
+.avatars span:first-child{margin-left:0}
+/* hero collage */
+.collage{position:relative;height:520px}
+.collage .card{position:absolute;padding:18px 20px}
+.c1{top:20px;left:0;width:250px;background:var(--white)}
+.c2{top:150px;right:0;width:230px;background:var(--peach)}
+.c3{bottom:60px;left:30px;width:260px;background:var(--white)}
+.c4{bottom:0;right:40px;width:200px;background:var(--ink);color:#fff}
+.c5{top:0;right:90px;background:var(--white);padding:10px 14px;font-weight:800;font-family:var(--font-display);font-size:1.1rem}
+.collage .big{font-family:var(--font-display);font-size:1.6rem;font-weight:800;line-height:1.05;margin:6px 0}
+.blob{position:absolute;border-radius:50%;filter:blur(40px);z-index:-1;opacity:.6}
+.b1{width:280px;height:280px;background:var(--peach);top:-60px;right:-60px}
+.b2{width:200px;height:200px;background:var(--sky);bottom:-30px;left:20%}
+@keyframes float{0%,100%{transform:translateY(0) rotate(var(--rot,0))}50%{transform:translateY(-10px) rotate(var(--rot,0))}}
+.float{animation:float 5s ease-in-out infinite}
+.c1{--rot:-3deg}.c2{--rot:2deg;animation-delay:.8s}.c3{--rot:1.5deg;animation-delay:1.6s}.c4{--rot:-2deg;animation-delay:.4s}.c5{--rot:4deg;animation-delay:2s}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.collage{height:420px;max-width:520px;margin:0 auto}}
+@media(max-width:520px){.collage{height:380px}.c1,.c2,.c3,.c4{width:170px;padding:12px}.collage .big{font-size:1.15rem}.c5{display:none}}
+
+/* WHY JOIN */
+.why{padding-top:0}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+.why .card{min-height:190px}
+.why .ico{font-size:1.7rem;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin-bottom:14px;background:var(--paper2)}
+.why h3{font-size:1.25rem;margin-bottom:6px}
+.why p{font-size:.95rem;color:var(--muted)}
+
+/* SOLVE */
+.solve{background:var(--ink);color:var(--paper)}
+.solve .eyebrow{background:rgba(255,255,255,.1);color:var(--peach)}
+.solve .sub{color:#B9B5C2}
+.flow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:22px 0 40px;font-family:var(--font-display);font-weight:800;font-size:1.15rem}
+.flow span{background:rgba(255,255,255,.08);color:var(--paper);padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.2)}
+.flow i{font-style:normal;color:var(--saffron);font-size:1.4rem}
+.flip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.flip{perspective:1200px;height:270px;cursor:pointer}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid transparent;border-radius:var(--r);padding:22px;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.face.front{background:var(--c,var(--yellow));color:var(--ink);justify-content:space-between}
+.face.front{padding:0;overflow:hidden}.face.front .ill{height:150px;background:var(--white);border-bottom:1px solid var(--line)}.face.front .ill svg{width:100%;height:100%}.face.front>div:last-child{padding:14px 18px 16px}
+.face.front h3{font-size:1.4rem}
+.face.front small{font-weight:700;opacity:.7;font-size:.8rem;text-transform:uppercase;letter-spacing:.1em}
+.face.back{background:var(--white);color:var(--ink);transform:rotateY(180deg);justify-content:space-between;padding:18px;overflow:hidden}
+.face.back h4{font-family:var(--font-display);font-size:1.05rem;margin-bottom:6px}
+.face.back p{font-size:.86rem;color:var(--muted);line-height:1.4}
+.face.back .acts{display:flex;gap:8px;flex-wrap:wrap}
+.face.back .acts a{font-size:.8rem;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid var(--saffron);background:var(--saffron);color:#fff}
+.face.back .acts a.alt{background:var(--white);color:var(--ink);border-color:var(--line)}
+.solve-cta{margin-top:40px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--violet);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:26px 30px}
+.solve-cta h3{font-size:1.6rem;flex:1;min-width:240px}
+
+/* TEA */
+.tea-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+.tea .card{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.tea .thumb{height:150px;display:flex;align-items:flex-end;padding:14px;font-size:3rem;border-bottom:1px solid var(--line);position:relative}
+.tea .thumb .tag{position:absolute;top:12px;left:12px;background:var(--white)}
+.tea .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tea h3{font-size:1.15rem}
+.tea p{font-size:.92rem;color:var(--muted);flex:1}
+.tea .meta{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;font-weight:700}
+.tea .reel{grid-row:span 2}
+.tea .reel .thumb{height:100%;min-height:340px;background:linear-gradient(160deg,var(--ink),#4a4550);color:#fff;align-items:center;justify-content:center;font-size:4rem}
+.play{width:70px;height:70px;border-radius:50%;background:var(--white);border:1px solid var(--line);display:grid;place-items:center;font-size:1.6rem;color:var(--ink);box-shadow:var(--shadow-sm)}
+.tea .reel .body{border-top:1px solid var(--line)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.chip{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--white);font-weight:700;font-size:.85rem}
+.chip.on,.chip:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
+
+/* VIBE */
+.vibe{background:var(--paper2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.stat{background:var(--white)}
+.stat .num{font-family:var(--font-display);font-size:clamp(2.6rem,4.5vw,3.6rem);font-weight:800;line-height:1;margin:8px 0 4px;color:var(--saffron)}
+.stat .lbl{font-weight:700;font-size:1.05rem}
+.stat p{font-size:.88rem;color:var(--muted);margin:8px 0 14px}
+.stat .receipt{font-size:.85rem;font-weight:700;display:inline-flex;gap:6px;align-items:center;border-bottom:1px solid var(--ink)}
+.stat .bar{height:8px;border-radius:999px;background:var(--paper2);overflow:hidden;margin-top:12px}
+.stat .bar i{display:block;height:100%;background:var(--saffron)!important;width:0;transition:width 1.4s ease}
+.stat.in .bar i{width:var(--w)}
+.area-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
+.area-row span{background:var(--white);border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-weight:700;font-size:.85rem}
+.foot-note{font-size:.78rem;margin-top:14px;opacity:.7}
+
+/* MEMES */
+.memes .h2 .verified{display:inline-block;background:var(--peach);color:var(--saffron);border:1px solid var(--peach);border-radius:12px;padding:0 10px;font-size:.5em;vertical-align:middle;transform:rotate(-3deg)}
+.meme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.meme{padding:0;overflow:hidden}
+.meme .img{aspect-ratio:4/3;display:grid;place-items:center;text-align:center;padding:20px;font-family:var(--font-display);font-weight:800;font-size:1.25rem;line-height:1.15;border-bottom:1px solid var(--line)}
+.meme .img small{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.65;margin-top:8px}
+.meme .bar2{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:.85rem;font-weight:700}
+.meme .bar2 .acts{display:flex;gap:6px}
+.meme .bar2 button{border:1px solid var(--line);background:var(--white);border-radius:999px;width:34px;height:34px;font-size:.95rem;transition:transform .15s}
+.meme .bar2 button:hover{transform:scale(1.1);background:var(--peach)}
+.meme .bar2 button.liked{background:var(--saffron);color:#fff;border-color:var(--saffron)}
+.spin-year{margin-top:50px;background:var(--white);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:30px;display:grid;grid-template-columns:1fr 1.4fr;gap:30px;align-items:center}
+.spin-year h3{font-size:1.9rem;margin-bottom:8px}
+.year-out{background:var(--cream);border:1px solid var(--line);border-radius:var(--r);padding:22px;min-height:190px}
+.year-out .yr{font-family:var(--font-display);font-size:3.2rem;font-weight:800;line-height:1;color:var(--saffron)}
+.year-out h4{font-size:1.15rem;margin:8px 0 6px;font-family:var(--font-display)}
+.year-out ul{padding-left:18px;font-size:.92rem;color:var(--muted)}
+.year-out li{margin-bottom:3px}
+input[type=range]{width:100%;accent-color:var(--saffron);margin:14px 0}
+.year-ticks{display:flex;justify-content:space-between;font-size:.75rem;font-weight:700}
+@media(max-width:800px){.spin-year{grid-template-columns:1fr}}
+
+/* CITY */
+.city{background:var(--paper2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.city-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+.city-pick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.city-pick button{border:1px solid var(--line);background:var(--white);border-radius:999px;padding:9px 16px;font-weight:700;transition:transform .15s}
+.city-pick button:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-sm)}
+.city-pick button.on{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.city-panel{background:var(--white)}
+.city-panel h3{font-size:2rem}
+.city-panel .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.city-panel .mini{background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:12px}
+.city-panel .mini b{display:block;font-family:var(--font-display);font-size:1.3rem}
+.city-panel .mini span{font-size:.8rem;font-weight:700;opacity:.7}
+.lb{list-style:none}
+.lb li{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;margin-bottom:8px;background:var(--white);font-weight:600}
+.lb li:nth-child(1){background:var(--peach)}
+.lb .rank{font-family:var(--font-display);font-weight:800;width:28px}
+.lb .pts{margin-left:auto;font-weight:800;font-size:.85rem;background:var(--ink);color:var(--white);padding:3px 10px;border-radius:999px}
+@media(max-width:860px){.city-grid{grid-template-columns:1fr}}
+
+/* GAMES */
+.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.game{background:var(--white);display:flex;flex-direction:column;gap:14px}
+.game h3{font-size:1.5rem;display:flex;align-items:center;gap:10px}
+.game .out{background:var(--cream);border:1px dashed var(--line);border-radius:16px;padding:16px;min-height:120px;font-size:.95rem}
+.game .out b{font-family:var(--font-display);font-size:1.15rem;display:block;margin-bottom:4px}
+.globe{width:130px;height:130px;border-radius:50%;margin:0 auto;border:1px solid var(--line);background:conic-gradient(var(--saffron) 0 25%,var(--paper2) 0 50%,var(--peach) 0 75%,var(--ink) 0);display:grid;place-items:center;font-size:2.4rem;transition:transform 2.2s cubic-bezier(.2,.8,.2,1);box-shadow:var(--shadow-sm)}
+.quiz-q{font-family:var(--font-display);font-weight:800;font-size:1.1rem;margin-bottom:10px}
+.quiz-opts{display:grid;gap:8px}
+.quiz-opts button{text-align:left;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--white);font-weight:600;transition:all .15s}
+.quiz-opts button:hover{background:var(--peach)}
+.quiz-opts button.ok{background:#DDEBD8;border-color:#7FA877}
+.quiz-opts button.bad{background:var(--peach);border-color:var(--saffron)}
+.quiz-meta{display:flex;justify-content:space-between;font-size:.85rem;font-weight:700}
+.social-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.social-list button{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--cream);font-weight:700;text-align:left;box-shadow:var(--shadow-sm);transition:transform .15s}
+.social-list button:hover{transform:translate(-2px,-2px);background:var(--peach)}
+.social-list button span{display:block;font-size:.72rem;opacity:.65;font-weight:600}
+
+/* SPILL */
+.spill{background:var(--peach);color:var(--ink);border-top:1px solid var(--line)}
+.spill .eyebrow{background:var(--white);color:var(--saffron)}
+.spill-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.spill h2{font-size:clamp(2.6rem,6vw,4.4rem)}
+.spill .sub{color:var(--muted)}
+.upload-types{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}
+.upload-types span{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-weight:700;font-size:.88rem}
+form.card{color:var(--ink)}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:700;font-size:.85rem;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:14px;font-family:inherit;font-size:.95rem;background:var(--paper)}
+.field textarea{min-height:90px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;background:#fff;border-color:var(--saffron)}
+.mod-note{font-size:.78rem;opacity:.75;margin-top:10px}
+@media(max-width:860px){.spill-grid{grid-template-columns:1fr}}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(20,17,38,.7);display:none;place-items:center;z-index:200;padding:20px}
+.modal.open{display:grid}
+.modal .card{max-width:520px;width:100%;max-height:92vh;overflow:auto}
+.modal .close{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper2);font-size:1.1rem;font-weight:800}
+.modal h3{font-size:1.8rem;margin-bottom:6px}
+.modal .card:hover{transform:none;box-shadow:var(--shadow)}
+.cta-choice{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.result-box{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:14px}
+.result-box .big{font-family:var(--font-display);font-size:1.7rem;font-weight:800}
+
+/* FOOTER */
+footer{background:var(--ink);color:var(--paper);padding:60px 0 30px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;margin-bottom:40px}
+footer h4{font-family:var(--font-display);font-size:1.05rem;margin-bottom:12px;color:var(--peach)}
+footer ul{list-style:none}
+footer li{margin-bottom:8px;font-size:.92rem;opacity:.85}
+footer li a:hover{color:var(--saffron)}
+.foot-tag{font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin:10px 0 14px}
+.socials{display:flex;gap:10px}
+.socials a{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-weight:800;font-size:.85rem;transition:all .2s}
+.socials a:hover{background:var(--saffron);border-color:var(--saffron)}
+.copy{border-top:2px solid rgba(255,255,255,.2);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.85rem;opacity:.75}
+@media(max-width:800px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.foot-grid{grid-template-columns:1fr}}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--white);padding:12px 22px;border-radius:999px;font-weight:700;transition:transform .3s;z-index:300}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap nav-in">
+    <a href="#top" class="logo">UP<span>Verse</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#solve">Solve It</a></li>
+      <li><a href="#tea">Daily Tea ☕</a></li>
+      <li><a href="#vibe">Vibe Check</a></li>
+      <li><a href="#memes">Unfiltered 😂</a></li>
+      <li><a href="#city">City Squad</a></li>
+      <li><a href="games.html">Games 🎮</a></li>
+      <li><a href="#" data-open="meetModal">Meetups</a></li>
+      <li><a href="#spill">Spill</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-wa btn-sm" data-open="waModal">WhatsApp</a>
+      <a href="#" class="btn btn-primary btn-sm keep" data-open="joinModal">Join the Squad</a>
+      <button class="burger" id="burger" aria-label="menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">✦ Gen-Z ka apna UP</span>
+      <h1>
+        <span class="hi">बात करो, <span class="mark">सवाल करो।</span></span>
+        UP के <span class="mark2">Next Chapter</span> में कमाल करो!
+      </h1>
+      <p class="lead">Daily tea, real solutions, memes that hit, and a squad from your city. UPVerse is where UP's youth talk, question, build — and have fun doing it.</p>
+      <div class="hero-cta">
+        <a href="#" class="btn btn-primary" data-open="joinModal">Join the Squad 🚀</a>
+        <a href="#" class="btn btn-wa" data-open="waModal">Join WhatsApp <b>→</b></a>
+      </div>
+      <div class="hero-proof">
+        <div class="avatars"><span style="background:#F6DDCB">🧑‍🎓</span><span style="background:#ECE9E2">👩‍💻</span><span style="background:#E6EBE0">🧑‍🌾</span><span style="background:#F6DDCB">👩‍🎤</span><span style="background:#fff">+</span></div>
+        <span>Squads forming in <b>75 districts</b>. Yours next?</span>
+      </div>
+      <div class="quick-links">
+        <a href="#" data-open="issueModal">📣 Have a Problem? <b>Tell Us →</b></a>
+        <a href="#" data-open="meetModal">🤝 Meetups · <b>Meet. Talk. Connect. →</b></a>
+      </div>
+    </div>
+    <div class="collage">
+      <div class="blob b1"></div><div class="blob b2"></div>
+      <div class="card c5 float">UP Mein Ka Ba? 👀</div>
+      <div class="card c1 float"><span class="tag">Daily Tea ☕</span><div class="big">Ganga Expressway ka status kya hai?</div><small>2-min explainer →</small></div>
+      <div class="card c2 float"><span class="tag">Solve It</span><div class="big">Scholarship chahiye?</div><small>Flip → Check eligibility</small></div>
+      <div class="card c3 float"><span class="tag">Unfiltered 😂</span><div class="big">"Kanpur ka traffic ek emotion hai"</div><small>🔥 2.3k shares</small></div>
+      <div class="card c4 float"><span class="tag" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)">City Squad</span><div class="big">Lucknow #1 this week</div><small>Leaderboard →</small></div>
+    </div>
+  </div>
+</header>
+
+
+<!-- SOLVE -->
+<section class="solve" id="solve">
+  <div class="wrap">
+    <span class="eyebrow">Section 2</span>
+    <h2 class="h2">See It. Say It. Solve It.</h2>
+    <p class="sub">Everyday problems → actual, actionable solutions. Tap a card to flip it.</p>
+    <div class="flow"><span>👁️ See the Issue</span><i>→</i><span>🗣️ Say What's Wrong</span><i>→</i><span>✅ Find the Solution</span></div>
+    <div class="flip-grid" id="flipGrid"></div>
+    <div class="solve-cta">
+      <h3>Got an Issue? Tell Us. 📣</h3>
+      <p style="flex:2;min-width:220px;color:#B9B5C2">Bijli, sadak, scholarship, form reject ho gaya — jo bhi hai, bolo. Squad + solutions team follow up karti hai.</p>
+      <a href="#" class="btn btn-lime" data-open="issueModal">Report an Issue</a>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY TEA -->
+<section class="tea" id="tea">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Section 3</span><h2 class="h2">Get Your Caffeine Daily ☕</h2><p class="sub">Your daily dose of UP — updates, explainers, reels, and trending conversations. Short. Visual. No 40-page PDFs.</p></div>
+      <a href="#" class="btn btn-primary" data-open="waModal">Give Me the Tea ☕</a>
+    </div>
+    <div class="chips" id="teaChips">
+      <button class="chip on" data-f="all">All</button><button class="chip" data-f="update">UP Updates</button><button class="chip" data-f="local">Local News</button><button class="chip" data-f="explainer">Explainers</button><button class="chip" data-f="reel">Reels</button><button class="chip" data-f="youth">Youth</button><button class="chip" data-f="trend">Trending</button>
+    </div>
+    <div class="tea-grid" id="teaGrid"></div>
+  </div>
+</section>
+
+<!-- VIBE CHECK -->
+<section class="vibe" id="vibe">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Section 4</span><h2 class="h2">Vibe Check: How's UP Doing?</h2><p class="sub">Development data — but make it quick, visual, and actually readable. Want the receipts? Every number links to the report.</p></div>
+    </div>
+    <div class="stat-grid" id="statGrid"></div>
+    <div class="area-row"><span>Economy</span><span>Infrastructure</span><span>Employment</span><span>Education</span><span>Healthcare</span><span>Airports</span><span>Expressways</span><span>Connectivity</span><span>Investment</span><span>Development</span></div>
+    <p class="foot-note">Illustrative figures for launch — each stat card links to its source report. Update via the content CMS.</p>
+  </div>
+</section>
+
+<!-- UP UNFILTERED -->
+<section class="memes" id="memes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Section 5</span><h2 class="h2">UP Unfiltered 😂 <span class="verified">✓ Verified Vibe</span></h2><p class="sub">UP ki vibe, finally verified. Scroll → Laugh → Share.</p></div>
+      <a href="#spill" class="btn btn-pink">Submit a Meme</a>
+    </div>
+    <div class="chips" id="memeChips">
+      <button class="chip on" data-c="all">All UP</button><button class="chip" data-c="Kanpur">Kanpur</button><button class="chip" data-c="Lucknow">Lucknow</button><button class="chip" data-c="Banaras">Banaras</button><button class="chip" data-c="Agra">Agra</button><button class="chip" data-c="Prayagraj">Prayagraj</button><button class="chip" data-c="Noida">Noida</button><button class="chip" data-c="Gorakhpur">Gorakhpur</button><button class="chip" data-c="Culture">UP Internet Culture</button>
+    </div>
+    <div class="meme-grid" id="memeGrid"></div>
+
+    <div class="spin-year reveal">
+      <div>
+        <span class="eyebrow">Gamified timeline</span>
+        <h3>Spin the Year in UP ⏳</h3>
+        <p style="color:var(--muted)">Slide through the years — moments, developments, trends and culture. Not "good era vs bad era", just the story of what changed.</p>
+        <input type="range" id="yearRange" min="0" max="7" value="3" step="1">
+        <div class="year-ticks" id="yearTicks"></div>
+        <button class="btn btn-sky btn-sm" id="randYear" style="margin-top:14px">🎲 Random Year</button>
+      </div>
+      <div class="year-out" id="yearOut"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CITY SQUAD -->
+<section class="city" id="city">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Section 6</span><h2 class="h2">Your City. Your Squad.</h2><p class="sub">Pick your city — get local updates, memes, events, issues, and the squad leaderboard.</p></div>
+      <a href="#" class="btn btn-ink" data-open="commanderModal">Become a City Squad Commander 🚀</a>
+    </div>
+    <div class="city-pick" id="cityPick"></div>
+    <div class="city-grid">
+      <div class="card city-panel" id="cityPanel"></div>
+      <div>
+        <div class="card" style="background:var(--white)">
+          <h3 style="font-size:1.4rem;margin-bottom:12px">🏆 <span id="lbCity">Lucknow</span> Squad Leaderboard</h3>
+          <ol class="lb" id="lbList"></ol>
+          <p style="font-size:.85rem;margin-top:10px;color:var(--muted)">Points for: spilling verified tea, memes that get shared, issues that get solved, and meetups hosted.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMES TEASER -->
+<section class="games-teaser" id="games">
+  <div class="wrap">
+    <a href="games.html" class="teaser card">
+      <div>
+        <span class="eyebrow">Games & Interactive Zone 🎮</span>
+        <h2 class="h2">Bet You Didn't Know 👀</h2>
+        <p class="sub">Spin the Globe, Spin the Year, UP Quiz, Which UP City Are You? — play, earn squad points, climb the leaderboard.</p>
+      </div>
+      <div class="teaser-tiles"><span>🌎</span><span>⏳</span><span>🧠</span><span>🏙️</span></div>
+      <span class="btn btn-primary">Enter the Game Zone →</span>
+    </a>
+  </div>
+</section>
+
+<!-- SPILL THE TEA -->
+<section class="spill" id="spill">
+  <div class="wrap spill-grid">
+    <div>
+      <span class="eyebrow">Section 8 · Got Your Own Tea? ☕👀</span>
+      <h2>You Have Your Own Tea?!<br><span style="font-family:var(--font-hindi)">Spill it.</span></h2>
+      <p class="sub">Your city, your lens. Upload it and the squad sees it (after a quick moderation check).</p>
+      <div class="upload-types"><span>😂 Meme</span><span>📸 Photo</span><span>📖 Local story</span><span>💡 Interesting fact</span><span>🎉 City moment</span><span>🚧 Ground issue</span></div>
+      <p style="font-size:.9rem;color:var(--muted)">Best submissions land on the homepage, the WhatsApp channel and Instagram — with your name on it. 🏆</p>
+    </div>
+    <form class="card" id="spillForm">
+      <h3 style="font-size:1.6rem;margin-bottom:12px">Spill the Tea ☕</h3>
+      <div class="field"><label>Your name / handle</label><input required placeholder="e.g. @kanpurwaala"></div>
+      <div class="field"><label>City</label><select required><option value="">Select</option><option>Lucknow</option><option>Kanpur</option><option>Varanasi</option><option>Agra</option><option>Prayagraj</option><option>Noida</option><option>Gorakhpur</option><option>Ghaziabad</option><option>Meerut</option><option>Bareilly</option><option>Other</option></select></div>
+      <div class="field"><label>Type</label><select required><option>Meme</option><option>Photo</option><option>Local story</option><option>Interesting fact</option><option>City moment</option><option>Ground issue</option></select></div>
+      <div class="field"><label>Caption / story</label><textarea required placeholder="Kya hai scene?"></textarea></div>
+      <div class="field"><label>Upload (image/video)</label><input type="file" accept="image/*,video/*"></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">Spill the Tea ☕</button>
+      <p class="mod-note">All submissions go through moderation before appearing publicly. By submitting you agree to our Community Guidelines.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="logo" style="color:var(--paper)">UP<span>Verse</span></a>
+        <div class="foot-tag">Your City. Your Voice. Your Vibe.</div>
+        <div class="socials"><a href="#" title="WhatsApp">WA</a><a href="#" title="Instagram">IG</a><a href="#" title="YouTube">YT</a><a href="#" title="X">X</a></div>
+      </div>
+      <div><h4>Quick Links</h4><ul><li><a href="#top">About the Movement</a></li><li><a href="games.html">Games</a></li><li><a href="#tea">Daily Tea</a></li><li><a href="#vibe">UP Vibe Check</a></li><li><a href="#city">City Map & Leaderboard</a></li></ul></div>
+      <div><h4>&nbsp;</h4><ul><li><a href="#" data-open="joinModal">Join the Squad</a></li><li><a href="#" data-open="meetModal">Meetups</a></li><li><a href="#">Contact Us</a></li><li><a href="#">FAQs</a></li></ul></div>
+      <div><h4>Policies</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms & Conditions</a></li><li><a href="#">Community Guidelines</a></li></ul>
+        <h4 style="margin-top:18px">Follow Us</h4><ul><li><a href="#">WhatsApp</a></li><li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="#">X</a></li></ul></div>
+    </div>
+    <div class="copy"><span>UPVerse — Your City. Your Voice. Your Vibe.</span><span>© 2026 UPVerse. All Rights Reserved.</span></div>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="modal" id="joinModal"><form class="card" onsubmit="return submitJoin(event)">
+  <button type="button" class="close" data-close>✕</button>
+  <span class="eyebrow">Registration</span><h3>Join the Squad 🚀</h3>
+  <p style="color:var(--muted);margin-bottom:14px">2 minutes. No spam. Sirf tea, memes and real stuff from your city.</p>
+  <div class="field"><label>Name</label><input required placeholder="Your name"></div>
+  <div class="field"><label>Phone (WhatsApp)</label><input required type="tel" placeholder="+91"></div>
+  <div class="field"><label>City / District</label><input required placeholder="e.g. Gorakhpur"></div>
+  <div class="field"><label>Age group</label><select><option>16–19</option><option>20–24</option><option>25–29</option><option>30+</option></select></div>
+  <div class="field"><label>What are you into? (pick any)</label>
+    <div class="cta-choice"><label class="chip"><input type="checkbox"> Memes</label><label class="chip"><input type="checkbox"> Local issues</label><label class="chip"><input type="checkbox"> Content</label><label class="chip"><input type="checkbox"> Meetups</label><label class="chip"><input type="checkbox"> Data & reports</label></div></div>
+  <div class="cta-choice"><button class="btn btn-primary" type="submit">Slay, I'm In! 💅</button><button class="btn btn-lime" type="submit">Let Me In 🚀</button><button class="btn" type="submit">Count Me In</button></div>
+</form></div>
+
+<div class="modal" id="waModal"><div class="card">
+  <button type="button" class="close" data-close>✕</button>
+  <span class="eyebrow">WhatsApp</span><h3>Join the University 📱</h3>
+  <p style="color:var(--muted);margin-bottom:16px">Daily tea, alerts, memes and your city squad chat — straight to WhatsApp. Choose your channel:</p>
+  <div class="cta-choice"><a class="btn btn-wa" href="https://whatsapp.com/channel/" target="_blank" rel="noopener">Let's Get In → UPVerse Channel</a><a class="btn" href="https://chat.whatsapp.com/" target="_blank" rel="noopener">My City Squad Group</a></div>
+  <p class="mod-note">Links to be replaced with the live community/channel URLs.</p>
+</div></div>
+
+<div class="modal" id="issueModal"><form class="card" onsubmit="return toastSubmit(event,'Issue logged! Squad will follow up. 🫡')">
+  <button type="button" class="close" data-close>✕</button>
+  <span class="eyebrow">Got an Issue?</span><h3>Tell Us. 📣</h3>
+  <div class="field"><label>Category</label><select><option>Scholarship</option><option>Electricity Bill</option><option>Jobs</option><option>Education</option><option>Roads</option><option>Public Services</option><option>Government Schemes</option><option>Local Issues</option></select></div>
+  <div class="field"><label>City / Area</label><input required placeholder="e.g. Kanpur, Kidwai Nagar"></div>
+  <div class="field"><label>What's wrong?</label><textarea required placeholder="Describe the issue. Photos help — attach below."></textarea></div>
+  <div class="field"><label>Photo (optional)</label><input type="file" accept="image/*"></div>
+  <div class="field"><label>WhatsApp number (for updates)</label><input type="tel" placeholder="+91"></div>
+  <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">Submit Issue</button>
+</form></div>
+
+<div class="modal" id="commanderModal"><form class="card" onsubmit="return toastSubmit(event,'Application received, Commander! 🫡🚀')">
+  <button type="button" class="close" data-close>✕</button>
+  <span class="eyebrow">Leadership</span><h3>Become a City Squad Commander 🚀</h3>
+  <p style="color:var(--muted);margin-bottom:14px">Lead your city's squad: run meetups, verify local tea, get issues solved, and top the leaderboard.</p>
+  <div class="field"><label>Name</label><input required></div>
+  <div class="field"><label>City / District</label><input required></div>
+  <div class="field"><label>Instagram / social handle</label><input placeholder="@"></div>
+  <div class="field"><label>Why you? (2 lines)</label><textarea required></textarea></div>
+  <button class="btn btn-ink" type="submit" style="width:100%;justify-content:center">Apply to Command</button>
+</form></div>
+
+<div class="modal" id="meetModal"><div class="card">
+  <button type="button" class="close" data-close>✕</button>
+  <span class="eyebrow">Meetups</span><h3>Meet. Talk. Connect. 🤝</h3>
+  <p style="color:var(--muted);margin-bottom:14px">Offline squad meetups — chai, conversations, and city plans.</p>
+  <ul class="lb">
+    <li><span class="rank">📍</span><div><b>Lucknow</b> · Hazratganj · Sat 6 PM</div><span class="pts">RSVP</span></li>
+    <li><span class="rank">📍</span><div><b>Kanpur</b> · Mall Road · Sun 5 PM</div><span class="pts">RSVP</span></li>
+    <li><span class="rank">📍</span><div><b>Varanasi</b> · Assi Ghat · Sun 7 AM</div><span class="pts">RSVP</span></li>
+    <li><span class="rank">📍</span><div><b>Noida</b> · Sector 18 · Sat 4 PM</div><span class="pts">RSVP</span></li>
+  </ul>
+  <a href="#" class="btn btn-primary" data-open="commanderModal" style="margin-top:8px">Host one in my city</a>
+</div></div>
+
+<div class="toast" id="toast">Done ✅</div>
+
+<script>
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)};
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+function toastSubmit(e,msg){e.preventDefault();e.target.reset();closeModals();toast(msg);return false}
+function submitJoin(e){e.preventDefault();e.target.reset();closeModals();toast('Welcome to the Squad! Check WhatsApp 🚀');return false}
+function closeModals(){$$('.modal.open').forEach(m=>m.classList.remove('open'));document.body.style.overflow=''}
+document.addEventListener('click',e=>{
+  const o=e.target.closest('[data-open]');
+  if(o){e.preventDefault();closeModals();const m=document.getElementById(o.dataset.open);if(m){m.classList.add('open');document.body.style.overflow='hidden'}}
+  if(e.target.closest('[data-close]')||e.target.classList.contains('modal'))closeModals();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModals()});
+$('#burger').onclick=()=>$('#navLinks').classList.toggle('open');
+$$('#navLinks a').forEach(a=>a.onclick=()=>$('#navLinks').classList.remove('open'));
+// reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}}),{threshold:.15});
+$$('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- SOLVE: flip cards ---------- */
+/* inline flat illustrations (palette: ink #1C1B1F, accent #E8632B, tint #F6DDCB, grey #ECE9E2) */
+const ILL={
+scholar:`<svg viewBox="0 0 160 110"><circle cx="118" cy="40" r="26" fill="#F6DDCB"/><rect x="18" y="52" width="70" height="46" rx="4" fill="#fff" stroke="#1C1B1F" stroke-width="2"/><line x1="30" y1="66" x2="76" y2="66" stroke="#ECE9E2" stroke-width="3"/><line x1="30" y1="76" x2="66" y2="76" stroke="#ECE9E2" stroke-width="3"/><circle cx="72" cy="86" r="7" fill="#E8632B"/><path d="M69 92l3 8 3-8" fill="#E8632B"/><path d="M96 46l30-12 30 12-30 12z" fill="#1C1B1F"/><path d="M108 52v14c0 6 36 6 36 0V52" fill="none" stroke="#1C1B1F" stroke-width="3"/><line x1="156" y1="34" x2="156" y2="58" stroke="#E8632B" stroke-width="3"/><circle cx="156" cy="60" r="3" fill="#E8632B"/></svg>`,
+bijli:`<svg viewBox="0 0 160 110"><circle cx="46" cy="50" r="30" fill="#F6DDCB"/><path d="M46 20a20 20 0 0 0-11 36v8h22v-8a20 20 0 0 0-11-36z" fill="#fff" stroke="#1C1B1F" stroke-width="2.5"/><rect x="38" y="66" width="16" height="10" rx="2" fill="#1C1B1F"/><path d="M50 32l-8 12h8l-6 12" fill="none" stroke="#E8632B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="92" y="28" width="52" height="60" rx="6" fill="#fff" stroke="#1C1B1F" stroke-width="2.5"/><rect x="100" y="38" width="36" height="16" rx="3" fill="#ECE9E2"/><rect x="104" y="42" width="6" height="8" fill="#1C1B1F"/><rect x="112" y="42" width="6" height="8" fill="#1C1B1F"/><rect x="120" y="42" width="6" height="8" fill="#E8632B"/><circle cx="108" cy="70" r="6" fill="#ECE9E2"/><circle cx="128" cy="70" r="6" fill="#E8632B"/><line x1="98" y1="96" x2="138" y2="96" stroke="#ECE9E2" stroke-width="3"/></svg>`,
+jobs:`<svg viewBox="0 0 160 110"><circle cx="118" cy="46" r="30" fill="#F6DDCB"/><rect x="20" y="42" width="72" height="50" rx="6" fill="#fff" stroke="#1C1B1F" stroke-width="2.5"/><path d="M42 42v-8a6 6 0 0 1 6-6h16a6 6 0 0 1 6 6v8" fill="none" stroke="#1C1B1F" stroke-width="2.5"/><line x1="20" y1="60" x2="92" y2="60" stroke="#1C1B1F" stroke-width="2"/><rect x="50" y="56" width="12" height="9" rx="2" fill="#E8632B"/><rect x="100" y="34" width="46" height="34" rx="3" fill="#1C1B1F"/><rect x="104" y="38" width="38" height="24" fill="#fff"/><path d="M110 56l8-8 6 5 10-11" fill="none" stroke="#E8632B" stroke-width="2.5"/><rect x="94" y="68" width="58" height="5" rx="2" fill="#1C1B1F"/><circle cx="132" cy="90" r="6" fill="#ECE9E2"/><circle cx="116" cy="90" r="6" fill="#ECE9E2"/></svg>`,
+edu:`<svg viewBox="0 0 160 110"><circle cx="50" cy="52" r="32" fill="#F6DDCB"/><rect x="24" y="72" width="70" height="12" rx="2" fill="#1C1B1F"/><rect x="28" y="60" width="62" height="12" rx="2" fill="#fff" stroke="#1C1B1F" stroke-width="2"/><rect x="32" y="48" width="54" height="12" rx="2" fill="#E8632B"/><rect x="36" y="36" width="46" height="12" rx="2" fill="#ECE9E2" stroke="#1C1B1F" stroke-width="2"/><rect x="104" y="30" width="34" height="56" rx="5" fill="#fff" stroke="#1C1B1F" stroke-width="2.5"/><rect x="109" y="36" width="24" height="38" fill="#ECE9E2"/><circle cx="121" cy="80" r="2.5" fill="#1C1B1F"/><path d="M142 20l8 8-30 30-10 2 2-10z" fill="#E8632B" stroke="#1C1B1F" stroke-width="2"/></svg>`,
+road:`<svg viewBox="0 0 160 110"><rect x="0" y="50" width="160" height="60" fill="#ECE9E2"/><path d="M0 60h160v40H0z" fill="#1C1B1F"/><line x1="10" y1="80" x2="150" y2="80" stroke="#F7F5F0" stroke-width="3" stroke-dasharray="14 12"/><ellipse cx="60" cy="86" rx="16" ry="6" fill="#4a4550"/><ellipse cx="60" cy="86" rx="10" ry="3.5" fill="#2A2830"/><path d="M110 92l6-24h8l6 24z" fill="#E8632B"/><rect x="106" y="90" width="28" height="5" rx="2" fill="#1C1B1F"/><rect x="114" y="76" width="12" height="4" fill="#fff"/><rect x="26" y="18" width="20" height="30" rx="4" fill="#fff" stroke="#1C1B1F" stroke-width="2.5"/><rect x="30" y="23" width="12" height="18" fill="#F6DDCB"/><circle cx="36" cy="44" r="1.5" fill="#1C1B1F"/><path d="M52 24l6-4M52 30h7M52 36l6 4" stroke="#E8632B" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+gov:`<svg viewBox="0 0 160 110"><circle cx="40" cy="44" r="28" fill="#F6DDCB"/><path d="M40 20l40 16H0z" fill="#1C1B1F"/><rect x="6" y="36" width="68" height="6" fill="#fff" stroke="#1C1B1F" stroke-width="2"/><rect x="14" y="42" width="8" height="30" fill="#fff" stroke="#1C1B1F" stroke-width="2"/><rect x="36" y="42" width="8" height="30" fill="#fff" stroke="#1C1B1F" stroke-width="2"/><rect x="58" y="42" width="8" height="30" fill="#fff" stroke="#1C1B1F" stroke-width="2"/><rect x="4" y="72" width="72" height="8" fill="#1C1B1F"/><rect x="96" y="26" width="48" height="60" rx="4" fill="#fff" stroke="#1C1B1F" stroke-width="2.5"/><line x1="106" y1="40" x2="134" y2="40" stroke="#ECE9E2" stroke-width="3"/><line x1="106" y1="50" x2="134" y2="50" stroke="#ECE9E2" stroke-width="3"/><line x1="106" y1="60" x2="124" y2="60" stroke="#ECE9E2" stroke-width="3"/><circle cx="130" cy="72" r="9" fill="none" stroke="#E8632B" stroke-width="3"/><path d="M125 72l4 4 7-8" fill="none" stroke="#E8632B" stroke-width="3" stroke-linecap="round"/></svg>`,
+scheme:`<svg viewBox="0 0 160 110"><circle cx="112" cy="58" r="30" fill="#F6DDCB"/><rect x="26" y="20" width="60" height="74" rx="5" fill="#fff" stroke="#1C1B1F" stroke-width="2.5"/><rect x="44" y="14" width="24" height="10" rx="3" fill="#1C1B1F"/><g stroke-width="2.5" stroke-linecap="round" fill="none"><rect x="34" y="34" width="8" height="8" rx="2" stroke="#1C1B1F"/><path d="M36 38l2 2 4-5" stroke="#E8632B"/><rect x="34" y="50" width="8" height="8" rx="2" stroke="#1C1B1F"/><path d="M36 54l2 2 4-5" stroke="#E8632B"/><rect x="34" y="66" width="8" height="8" rx="2" stroke="#1C1B1F"/></g><line x1="48" y1="38" x2="76" y2="38" stroke="#ECE9E2" stroke-width="3"/><line x1="48" y1="54" x2="76" y2="54" stroke="#ECE9E2" stroke-width="3"/><line x1="48" y1="70" x2="70" y2="70" stroke="#ECE9E2" stroke-width="3"/><circle cx="106" cy="52" r="16" fill="#fff" stroke="#1C1B1F" stroke-width="3"/><line x1="118" y1="64" x2="132" y2="78" stroke="#1C1B1F" stroke-width="5" stroke-linecap="round"/><text x="106" y="58" text-anchor="middle" font-family="Arial" font-weight="700" font-size="16" fill="#E8632B">₹</text></svg>`,
+local:`<svg viewBox="0 0 160 110"><rect x="0" y="80" width="160" height="30" fill="#ECE9E2"/><path d="M14 80V50l18-14 18 14v30z" fill="#fff" stroke="#1C1B1F" stroke-width="2.5"/><rect x="26" y="62" width="12" height="18" fill="#E8632B"/><path d="M60 80V54l16-12 16 12v26z" fill="#F6DDCB" stroke="#1C1B1F" stroke-width="2.5"/><rect x="70" y="60" width="12" height="10" fill="#fff" stroke="#1C1B1F" stroke-width="2"/><rect x="104" y="46" width="3" height="34" fill="#1C1B1F"/><path d="M104 46q10-2 12 6" fill="none" stroke="#1C1B1F" stroke-width="3"/><circle cx="117" cy="53" r="4" fill="#E8632B"/><path d="M138 30a12 12 0 0 1 12 12c0 9-12 22-12 22S126 51 126 42a12 12 0 0 1 12-12z" fill="#E8632B" stroke="#1C1B1F" stroke-width="2"/><circle cx="138" cy="42" r="4" fill="#fff"/></svg>`};
+
+const issues=[
+ {ill:'scholar',t:'Need a Scholarship?',c:'#F6DDCB',h:"Here's what you need to know.",p:'UP Scholarship (Pre/Post-Matric) via scholarship.up.gov.in. Income cert, Aadhaar, bank a/c and last marksheet chahiye. Deadlines usually Oct–Nov.',a:[['Check Eligibility','https://scholarship.up.gov.in'],['Apply Now','https://scholarship.up.gov.in']]},
+ {ill:'bijli',t:'Bijli Bill Bahut Zyada?',c:'#ECE9E2',h:'Check, dispute, or pay online.',p:'UPPCL portal pe bill history dekho, meter reading compare karo. Galat lage toh 1912 pe complaint ya online grievance file karo.',a:[['Check Bill','https://uppcl.mpower.in'],['File Complaint','https://uppcl.mpower.in']]},
+ {ill:'jobs',t:'Looking for a Job?',c:'#E6EBE0',h:'Sewayojan + Rojgar Mela.',p:'Register on UP Sewayojan for private/govt openings and Rojgar Melas. UPSSSC PET clears you for state group-C exams.',a:[['Register on Sewayojan','https://sewayojan.up.nic.in'],['UPSSSC','https://upsssc.gov.in']]},
+ {ill:'edu',t:'Education Confusion?',c:'#F6DDCB',h:'Colleges, exams, free coaching.',p:'Abhyudaya Yojana gives free coaching for UPSC/NEET/JEE. Check UP Board results, admissions and DigiShakti tablets/smartphones.',a:[['Abhyudaya Coaching','https://abhyuday.up.gov.in'],['UP Board','https://upmsp.edu.in']]},
+ {ill:'road',t:'Sadak Toot Gayi?',c:'#E8632B',h:'Report it. Track it.',p:'Register road complaints on Jansunwai (IGRS) portal or the CM helpline 1076. Attach photo + location for faster action.',a:[['Jansunwai / IGRS','https://jansunwai.up.nic.in'],['Call 1076','tel:1076']]},
+ {ill:'gov',t:'Public Service Stuck?',c:'#1C1B1F',h:'Certificates, ration, pension.',p:'Income/caste/domicile certificates via eDistrict. Ration card issues → fcs.up.gov.in. Any grievance → Jansunwai.',a:[['eDistrict','https://edistrict.up.gov.in'],['Ration / FCS','https://fcs.up.gov.in']]},
+ {ill:'scheme',t:'Which Govt Scheme Fits Me?',c:'#F6DDCB',h:'One-stop scheme finder.',p:'Kanya Sumangala, Mukhyamantri Yuva Udyami, PM Awas, Vishwakarma — check eligibility in one place on myScheme.',a:[['Find My Scheme','https://www.myscheme.gov.in'],['Yuva Udyami','https://msme.up.gov.in']]},
+ {ill:'local',t:'Local Issue in Your Mohalla?',c:'#ECE9E2',h:'Tell the squad. Get it heard.',p:'Water, garbage, streetlights, stray issues — post it here, City Squad escalates to the right ward/officer and tracks it publicly.',a:[['Report Local Issue','#issue'],['See Open Issues','#city']]},
+];
+$('#flipGrid').innerHTML=issues.map((i,idx)=>`<div class="flip" tabindex="0" style="--c:${i.c}"><div class="flip-in">
+ <div class="face front"><div class="ill">${ILL[i.ill]}</div><div><h3>${i.t}</h3><small>Tap to flip ↻</small></div></div>
+ <div class="face back"><div><h4>${i.h}</h4><p>${i.p}</p></div><div class="acts">${i.a.map(([l,u])=>u.startsWith('#issue')?`<a href="#" data-open="issueModal">${l}</a>`:`<a href="${u}" target="_blank" rel="noopener" class="${l.startsWith('Apply')||l.startsWith('Register')?'':'alt'}">${l} ↗</a>`).join('')}</div></div>
+</div></div>`).join('');
+$$('.flip').forEach(f=>{f.addEventListener('click',e=>{if(!e.target.closest('a'))f.classList.toggle('on')});f.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f.classList.toggle('on')}})});
+
+/* ---------- DAILY TEA ---------- */
+const tea=[
+ {f:'reel',em:'🎬',t:'Ganga Expressway: 594 km in 60 seconds',p:'Meerut → Prayagraj. What it changes for 12 districts, explained fast.',m:'Reel · 0:58',bg:''},
+ {f:'update',em:'✈️',t:'Jewar Airport: what opens first?',p:'Noida International Airport phase-1 status, flight routes and how you get there.',m:'UP Update · 2 min',bg:'#F6DDCB'},
+ {f:'explainer',em:'📱',t:'DigiShakti tablets: kaun eligible hai?',p:'Free tablets/smartphones for students — eligibility, college list, and how to claim.',m:'Explainer · 3 min',bg:'#E6EBE0'},
+ {f:'local',em:'🚇',t:'Kanpur Metro corridor-1: new stations',p:'Which stations, what fare, and the underground stretch timeline.',m:'Kanpur · Local',bg:'#ECE9E2'},
+ {f:'youth',em:'💼',t:'Rojgar Mela this week: 6 cities',p:'Lucknow, Gorakhpur, Bareilly, Agra, Meerut, Jhansi. Companies + how to register.',m:'Youth · Jobs',bg:'#F6DDCB'},
+ {f:'trend',em:'🔥',t:'"UP Mein Ka Ba?" trend is back',p:'The reels are unhinged this time. Top 5 from the squad, ranked.',m:'Trending',bg:'#1C1B1F'},
+ {f:'update',em:'🏭',t:'Where the ₹ is going: district-wise investment',p:'Which districts got new industrial land and what jobs it means.',m:'UP Update · 2 min',bg:'#E8632B'},
+ {f:'local',em:'🛕',t:'Ayodhya weekend: what to actually plan',p:'Trains, stays, timings — a squad member\'s no-nonsense guide.',m:'Ayodhya · Local',bg:'#F3EFE7'},
+];
+function renderTea(f='all'){$('#teaGrid').innerHTML=tea.filter(x=>f==='all'||x.f===f).map(x=>x.f==='reel'?
+ `<article class="card reel"><div class="thumb"><div class="play">▶</div></div><div class="body"><span class="tag">Reel</span><h3>${x.t}</h3><p>${x.p}</p><div class="meta"><span>${x.m}</span><a href="#" style="border-bottom:1px solid var(--ink)">Watch More →</a></div></div></article>`:
+ `<article class="card"><div class="thumb" style="background:${x.bg}"><span class="tag">${({update:'UP Update',local:'Local News',explainer:'Explainer',youth:'Youth',trend:'Trending'})[x.f]}</span>${x.em}</div><div class="body"><h3>${x.t}</h3><p>${x.p}</p><div class="meta"><span>${x.m}</span><a href="#" style="border-bottom:1px solid var(--ink)">Read More →</a></div></div></article>`).join('')}
+renderTea();
+$('#teaChips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;$$('#teaChips .chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');renderTea(b.dataset.f)};
+
+/* ---------- VIBE CHECK ---------- */
+const stats=[
+ {n:'13',l:'Expressways',p:'Operational + under construction, incl. Ganga (594 km), Purvanchal, Bundelkhand, Agra–Lucknow.',w:'85%',c:'#E8632B'},
+ {n:'16+',l:'Airports',p:'Operational airports incl. new ones at Ayodhya, Kushinagar and Jewar coming up — from 4 in 2017.',w:'75%',c:'#ECE9E2'},
+ {n:'₹40L Cr+',l:'Investment MoUs',p:'Proposals from the UP Global Investors Summit & ground-breaking ceremonies.',w:'80%',c:'#E6EBE0'},
+ {n:'6',l:'Metro Cities',p:'Lucknow, Kanpur, Noida, Ghaziabad, Agra + Meerut RRTS. More corridors under way.',w:'60%',c:'#F6DDCB'},
+ {n:'80+',l:'Medical Colleges',p:'Govt + private medical colleges; "one district, one medical college" push.',w:'70%',c:'#F6DDCB'},
+ {n:'2nd',l:'Largest Economy (State)',p:'UP is India\'s 2nd biggest state economy by GSDP with a $1 trillion target.',w:'65%',c:'#1C1B1F'},
+];
+$('#statGrid').innerHTML=stats.map(s=>`<div class="card stat reveal"><span class="tag">${s.l}</span><div class="num">${s.n}</div><div class="lbl">${s.l}</div><p>${s.p}</p><a href="#" class="receipt">Want the receipts? 👀 → Read the Report</a><div class="bar" style="--w:${s.w}"><i style="background:${s.c}"></i></div></div>`).join('');
+$$('.stat').forEach(el=>io.observe(el));
+
+/* ---------- MEMES ---------- */
+const memes=[
+ {c:'Kanpur',t:'"Kanpur ka traffic ek emotion hai, route nahi"',bg:'#F6DDCB',s:2300},
+ {c:'Lucknow',t:'Lucknow wale: "Pehle aap." Also Lucknow wale at a chaat stall: 🥊',bg:'#ECE9E2',s:1800},
+ {c:'Banaras',t:'Banaras mein 5 min ka rasta: 45 min + 3 chai + 1 life lesson',bg:'#E8632B',s:3100},
+ {c:'Agra',t:'Tourists: Taj Mahal 😍 · Agra wale: petha aur bedhai 🫡',bg:'#E6EBE0',s:990},
+ {c:'Prayagraj',t:'Prayagraj: where every 2nd flat is a UPSC library',bg:'#F6DDCB',s:2700},
+ {c:'Noida',t:'Noida sector numbers are just a personality test',bg:'#1C1B1F',s:1500},
+ {c:'Gorakhpur',t:'Gorakhpur wale after one flyover: "we are basically Dubai now"',bg:'#F3EFE7',s:1200},
+ {c:'Culture',t:'"UP mein ka ba?" — the only trend that never dies',bg:'#F6DDCB',s:4200},
+ {c:'Culture',t:'"Bhaiya thoda adjust kar lo" is UP\'s official public transport policy',bg:'#ECE9E2',s:2000},
+ {c:'Lucknow',t:'Every Lucknow uncle owns one chikan kurta and one strong opinion',bg:'#E6EBE0',s:870},
+];
+function renderMemes(c='all'){$('#memeGrid').innerHTML=memes.filter(m=>c==='all'||m.c===c).map((m,i)=>`<div class="card meme"><div class="img" style="background:${m.bg};${m.bg==='#1C1B1F'?'color:#fff':''}">${m.t}<small>${m.c==='Culture'?'UP Internet Culture':m.c+' Memes'}</small></div><div class="bar2"><span>🔥 <b class="sc">${m.s.toLocaleString()}</b> shares</span><div class="acts"><button class="like" title="Like">❤️</button><button class="share" data-t="${m.t.replace(/"/g,'&quot;')}" title="Share">↗</button></div></div></div>`).join('')}
+renderMemes();
+$('#memeChips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;$$('#memeChips .chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');renderMemes(b.dataset.c)};
+$('#memeGrid').addEventListener('click',async e=>{
+  const l=e.target.closest('.like');if(l){l.classList.toggle('liked');return}
+  const s=e.target.closest('.share');if(s){const text=s.dataset.t+' — via UPVerse';if(navigator.share){try{await navigator.share({text,url:location.href})}catch{}}else{try{await navigator.clipboard.writeText(text+' '+location.href)}catch{}toast('Copied! Share the vibe 📲')}
+    const sc=s.closest('.bar2').querySelector('.sc');sc.textContent=(parseInt(sc.textContent.replace(/,/g,''))+1).toLocaleString()}
+});
+
+/* ---------- SPIN THE YEAR (timeline) ---------- */
+const years=[
+ {y:2012,h:'The Lucknow Metro dream begins',b:['Agra–Lucknow expressway planning starts','Kanpur IIT & BHU dominate campus culture','Feature phones → first Android wave in tier-2']},
+ {y:2015,h:'Digital UP takes baby steps',b:['Lucknow Metro construction in full swing','Free laptop scheme becomes a college meme','Yamuna Expressway is the road-trip flex']},
+ {y:2017,h:'Expressway era kicks off',b:['Agra–Lucknow Expressway opens (302 km)','Lucknow Metro first stretch runs','Jio + memes: UP internet culture explodes']},
+ {y:2018,h:'What changed?',b:['UP Investors Summit: first big investment push','Kumbh 2019 prep transforms Prayagraj','"UP mein ka ba" style trends go viral']},
+ {y:2020,h:'The pandemic year',b:['Migrant homecoming — UP\'s biggest logistics test','Online classes, DigiShakti idea born','Ration & scheme delivery goes digital']},
+ {y:2021,h:'Purvanchal connected',b:['Purvanchal Expressway opens (341 km)','Kushinagar airport goes international','Kanpur Metro priority corridor launches']},
+ {y:2023,h:'Investment year',b:['UP Global Investors Summit — ₹33L Cr+ MoUs','G20 events in Lucknow, Agra, Varanasi','Ayodhya airport & station rebuilt']},
+ {y:2025,h:'Next chapter loading…',b:['Ganga Expressway nearing completion','Jewar airport gears up for launch','Kumbh 2025 breaks every attendance record']},
+];
+$('#yearTicks').innerHTML=years.map(y=>`<span>${y.y}</span>`).join('');
+function showYear(i){const y=years[i];$('#yearOut').innerHTML=`<div class="yr">${y.y}</div><h4>${y.h}</h4><ul>${y.b.map(b=>`<li>${b}</li>`).join('')}</ul>`}
+$('#yearRange').oninput=e=>showYear(+e.target.value);
+$('#randYear').onclick=()=>{const i=Math.floor(Math.random()*years.length);$('#yearRange').value=i;showYear(i)};
+showYear(3);
+
+/* ---------- CITY SQUAD ---------- */
+const cities={
+ Lucknow:{em:'🏛️',tag:'Nawabon ka sheher',members:1240,issues:18,solved:11,event:'Squad Meetup · Hazratganj · Sat 6 PM',update:'New Metro Phase-2 (Charbagh–Vasant Kunj) alignment approved.',meme:'"Pehle aap" — but only till the chaat counter.',lb:[['Aarav S.',980],['Zoya K.',910],['Ritik V.',860],['Manvi T.',720],['Sameer A.',655]]},
+ Kanpur:{em:'🏭',tag:'Manchester of the East',members:980,issues:24,solved:13,event:'Cleanup drive · Ganga Barrage · Sun 7 AM',update:'Kanpur Metro corridor-1 underground stations near completion.',meme:'"Kanpur ka traffic ek emotion hai."',lb:[['Harsh P.',940],['Anjali M.',870],['Deepak Y.',790],['Kriti S.',700],['Aman R.',610]]},
+ Varanasi:{em:'🛕',tag:'Banaras, obviously',members:1105,issues:15,solved:9,event:'Ghat photowalk · Assi Ghat · Sun 6 AM',update:'Ropeway project (Cantt → Godowlia) trial runs begin.',meme:'"5 min ka rasta = 45 min + 3 chai."',lb:[['Shreya M.',1010],['Vivek T.',890],['Nandini G.',760],['Kunal S.',640],['Pooja R.',600]]},
+ Agra:{em:'🕌',tag:'Not just Taj',members:640,issues:12,solved:6,event:'Heritage walk · Kinari Bazaar · Sat 5 PM',update:'Agra Metro priority corridor now open to public.',meme:'"Tourists: Taj 😍 · Agra: petha 🫡"',lb:[['Ishaan G.',720],['Mahi B.',680],['Rohan K.',590],['Sana Q.',540],['Yash D.',470]]},
+ Prayagraj:{ill:'edu',tag:'Sangam city',members:870,issues:10,solved:7,event:'Study jam · Civil Lines · Sun 4 PM',update:'Post-Kumbh infra: new flyovers & riverfront now open.',meme:'"Every 2nd flat is a UPSC library."',lb:[['Aditya N.',830],['Priya S.',800],['Mohit K.',700],['Ayesha F.',620],['Tanmay B.',560]]},
+ Noida:{em:'🏙️',tag:'Sector-wise personality',members:1530,issues:20,solved:14,event:'Startup meetup · Sector 62 · Sat 4 PM',update:'Jewar airport road links & Aqua Line extension update.',meme:'"Sector numbers = personality test."',lb:[['Kabir M.',1100],['Simran J.',990],['Aryan C.',870],['Nidhi P.',760],['Rahul V.',690]]},
+ Gorakhpur:{em:'🌿',tag:'Purvanchal pride',members:560,issues:14,solved:8,event:'Squad intro · Ramgarh Tal · Sun 5 PM',update:'Gorakhpur AIIMS & new industrial corridor updates.',meme:'"One flyover → basically Dubai."',lb:[['Anurag S.',640],['Neha Y.',600],['Sonu K.',520],['Ritu M.',480],['Vikas T.',430]]},
+ Ghaziabad:{em:'🚆',tag:'RRTS ready',members:720,issues:16,solved:9,event:'RapidX ride-along · Sahibabad · Sat 11 AM',update:'Namo Bharat RRTS full corridor to Meerut operational.',meme:'"Delhi ke bagal mein, dil UP mein."',lb:[['Tushar B.',700],['Ananya R.',660],['Faisal K.',580],['Megha S.',510],['Dev P.',450]]},
+};
+$('#cityPick').innerHTML=Object.keys(cities).map((c,i)=>`<button class="${i===0?'on':''}" data-c="${c}">${cities[c].em} ${c}</button>`).join('');
+function showCity(n){const c=cities[n];
+ $('#cityPanel').innerHTML=`<span class="tag">${c.tag}</span><h3>${c.em} ${n}</h3>
+  <div class="row"><div class="mini"><b>${c.members.toLocaleString()}</b><span>Squad members</span></div><div class="mini"><b>${c.solved}/${c.issues}</b><span>Issues solved / open</span></div></div>
+  <p><b>📰 Local update:</b> ${c.update}</p><p style="margin-top:8px"><b>😂 Local meme:</b> ${c.meme}</p><p style="margin-top:8px"><b>📅 Event:</b> ${c.event}</p>
+  <div class="cta-choice" style="margin-top:16px"><a href="#" class="btn btn-sm btn-primary" data-open="joinModal">Join ${n} Squad</a><a href="#" class="btn btn-sm" data-open="issueModal">Report local issue</a></div>`;
+ $('#lbCity').textContent=n;$('#lbList').innerHTML=c.lb.map((p,i)=>`<li><span class="rank">#${i+1}</span>${p[0]}<span class="pts">${p[1]} pts</span></li>`).join('');
+ $$('#cityPick button').forEach(b=>b.classList.toggle('on',b.dataset.c===n));}
+$('#cityPick').onclick=e=>{const b=e.target.closest('button');if(b)showCity(b.dataset.c)};
+showCity('Lucknow');
+
+/* ---------- SPILL FORM ---------- */
+$('#spillForm').onsubmit=e=>{e.preventDefault();e.target.reset();toast('Tea received ☕ In moderation queue — we\'ll ping you!')};
+</script>
+</body>
+</html>

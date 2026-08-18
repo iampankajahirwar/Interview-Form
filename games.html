@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Zone — UPVerse</title>
+<meta name="description" content="Bet You Didn't Know 👀 — Spin the Globe, Spin the Year, UP Quiz and social games. Earn squad points and climb the UPVerse leaderboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Space+Grotesk:wght@400;500;700&family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page-specific */
+.gz-hero{padding:50px 0 30px}
+.gz-hero .h2{font-size:clamp(2.4rem,5.5vw,4rem)}
+.pts-pill{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;border-radius:999px;padding:10px 18px;font-weight:700}
+.pts-pill b{color:var(--peach);font-family:var(--font-display);font-size:1.3rem}
+/* leaderboard */
+.lb-wrap{background:var(--white);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;margin-bottom:50px}
+.lb-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.lb-head h3{font-size:1.5rem}
+.lb-tabs{display:flex;gap:6px;background:var(--paper2);padding:4px;border-radius:999px}
+.lb-tabs button{border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:700;font-size:.88rem;color:var(--muted)}
+.lb-tabs button.on{background:var(--ink);color:#fff}
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:end;margin-bottom:18px}
+.pod{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center}
+.pod .av{width:52px;height:52px;border-radius:50%;background:var(--peach);display:grid;place-items:center;font-size:1.5rem;margin:0 auto 8px;border:2px solid var(--white);box-shadow:var(--shadow-sm)}
+.pod .nm{font-weight:700}.pod .ct{font-size:.78rem;color:var(--muted)}
+.pod .pt{font-family:var(--font-display);font-weight:800;font-size:1.3rem;color:var(--saffron);margin-top:6px}
+.pod.first{background:var(--peach);padding-top:26px}
+.pod.first .av{width:64px;height:64px;font-size:1.9rem;background:var(--white)}
+.lb-table{width:100%;border-collapse:collapse;font-size:.95rem}
+.lb-table td{padding:11px 10px;border-top:1px solid var(--line)}
+.lb-table tr.you td{background:var(--peach);font-weight:700}
+.lb-table .r{font-family:var(--font-display);font-weight:800;width:40px;color:var(--muted)}
+.lb-table .p{text-align:right;font-weight:800}
+.lb-table .c{color:var(--muted);font-size:.85rem}
+.lb-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-top:14px}
+.lb-legend span::before{content:"●";color:var(--saffron);margin-right:5px}
+/* game hub tabs */
+.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:34px}
+.hub button{border:1px solid var(--line);background:var(--white);border-radius:18px;padding:16px 12px;text-align:left;font-weight:700;display:flex;flex-direction:column;gap:6px;transition:all .15s;box-shadow:var(--shadow-sm)}
+.hub button i{font-style:normal;font-size:1.6rem}
+.hub button small{font-weight:600;color:var(--muted);font-size:.78rem}
+.hub button:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.hub button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hub button.on small{color:#B9B5C2}
+.panel{display:none}.panel.on{display:block}
+.game-shell{display:grid;grid-template-columns:1fr 1.2fr;gap:30px;align-items:start}
+@media(max-width:860px){.game-shell{grid-template-columns:1fr}}
+.game-shell .card:hover{transform:none;box-shadow:var(--shadow)}
+.game-title{font-size:1.9rem;margin-bottom:6px}
+.game-desc{color:var(--muted);margin-bottom:18px}
+.howto{background:var(--paper2);border-radius:14px;padding:12px 14px;font-size:.85rem;color:var(--muted);margin-top:16px}
+.howto b{color:var(--ink)}
+/* globe */
+.globe-wrap{position:relative;width:min(300px,80vw);margin:0 auto 18px}
+.globe-big{width:100%;aspect-ratio:1;border-radius:50%;border:1px solid var(--line);box-shadow:var(--shadow);transition:transform 3s cubic-bezier(.15,.85,.15,1);background:#fff}
+.globe-pin{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:22px solid var(--saffron);filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+.globe-svg text{font-family:var(--font-body);font-weight:700;fill:var(--ink)}
+.result{background:var(--paper2);border-radius:18px;padding:20px;min-height:170px}
+.result .big{font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin-bottom:6px}
+.result .muted{color:var(--muted);font-size:.85rem;margin-top:8px}
+.result-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+/* year */
+.era-strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:14px}
+.era-strip button{flex:0 0 auto;border:1px solid var(--line);background:var(--white);border-radius:14px;padding:10px 14px;font-weight:800;font-family:var(--font-display);font-size:1.05rem}
+.era-strip button.a{background:var(--saffron);color:#fff;border-color:var(--saffron)}
+.era-strip button.b{background:var(--ink);color:#fff;border-color:var(--ink)}
+.era-cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.era-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:16px}
+.era-card .yr{font-family:var(--font-display);font-size:2rem;font-weight:800;line-height:1}
+.era-card.a .yr{color:var(--saffron)}
+.era-card h5{font-family:var(--font-display);font-size:1rem;margin:6px 0}
+.era-card ul{padding-left:16px;font-size:.86rem;color:var(--muted)}
+.era-card li{margin-bottom:3px}
+.era-diff{margin-top:12px;background:var(--peach);border-radius:14px;padding:14px;font-size:.9rem}
+@media(max-width:520px){.era-cmp{grid-template-columns:1fr}}
+/* quiz */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+.cat-grid button{border:1px solid var(--line);background:var(--white);border-radius:14px;padding:12px 8px;font-weight:700;font-size:.85rem;display:flex;flex-direction:column;align-items:center;gap:6px}
+.cat-grid button i{font-style:normal;font-size:1.4rem}
+.cat-grid button.on{background:var(--peach);border-color:var(--saffron)}
+.qbar{height:8px;background:var(--paper2);border-radius:999px;overflow:hidden;margin:10px 0}
+.qbar i{display:block;height:100%;background:var(--saffron);transition:width .3s}
+.timer{font-family:var(--font-display);font-weight:800;color:var(--saffron)}
+.qexp{margin-top:10px;font-size:.86rem;color:var(--muted);background:var(--paper2);border-radius:12px;padding:10px 12px}
+.score-big{font-family:var(--font-display);font-size:3rem;font-weight:800;line-height:1;color:var(--saffron)}
+/* social */
+.social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.sg{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow-sm);text-align:left;transition:all .15s}
+.sg:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.sg i{font-style:normal;font-size:2rem}
+.sg h4{font-family:var(--font-display);font-size:1.15rem}
+.sg p{font-size:.85rem;color:var(--muted)}
+.sg .meta{font-size:.75rem;font-weight:700;color:var(--saffron)}
+.clue{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:8px;font-size:.92rem}
+.clue.locked{color:var(--muted);background:var(--paper2);border-style:dashed}
+.share-card{background:var(--ink);color:#fff;border-radius:18px;padding:22px;margin-top:14px}
+.share-card .big{font-family:var(--font-display);font-size:1.6rem;font-weight:800}
+.share-card small{color:#B9B5C2}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a href="index.html" class="logo">UP<span>Verse</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#solve">Solve It</a></li>
+      <li><a href="index.html#tea">Daily Tea ☕</a></li>
+      <li><a href="index.html#vibe">Vibe Check</a></li>
+      <li><a href="index.html#memes">Unfiltered 😂</a></li>
+      <li><a href="index.html#city">City Squad</a></li>
+      <li><a href="games.html" style="background:var(--paper2)">Games 🎮</a></li>
+      <li><a href="index.html#spill">Spill</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="index.html#top" class="btn btn-wa btn-sm">← Home</a>
+      <a href="#" class="btn btn-primary btn-sm keep" data-open="joinModal">Join the Squad</a>
+      <button class="burger" id="burger" aria-label="menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<header class="gz-hero">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:24px">
+      <div>
+        <span class="eyebrow">Games & Interactive Zone 🎮</span>
+        <h1 class="h2">Bet You Didn't Know 👀</h1>
+        <p class="sub">Information, but playful. Every game earns squad points — climb your city's leaderboard.</p>
+      </div>
+      <div class="pts-pill">⚡ Your points <b id="myPts">0</b></div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="lb-wrap">
+      <div class="lb-head">
+        <h3>🏆 Squad Leaderboard</h3>
+        <div class="lb-tabs" id="lbTabs"><button class="on" data-t="week">This week</button><button data-t="all">All time</button><button data-t="city">Your city</button></div>
+      </div>
+      <div class="podium" id="podium"></div>
+      <table class="lb-table"><tbody id="lbBody"></tbody></table>
+      <div class="lb-legend"><span>Quiz: 10 pts / correct</span><span>Globe & Year: 5 pts / spin</span><span>Social games: 15 pts / finish</span><span>Streak bonus: ×2 on 3-in-a-row</span></div>
+    </div>
+
+    <!-- HUB -->
+    <div class="hub" id="hub">
+      <button class="on" data-p="globe"><i>🌎</i>Spin the Globe<small>Land somewhere in UP</small></button>
+      <button data-p="year"><i>⏳</i>Spin the Year<small>Era exploration</small></button>
+      <button data-p="quiz"><i>🧠</i>UP Quiz<small>8 categories</small></button>
+      <button data-p="social"><i>📲</i>Social Games<small>Play → share</small></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" style="padding-bottom:80px">
+
+  <!-- GLOBE -->
+  <section class="panel on" id="p-globe" style="padding:0">
+    <div class="game-shell">
+      <div class="card">
+        <h2 class="game-title">🌎 Spin the Globe</h2>
+        <p class="game-desc">Spin, land on a place in UP, and pick up a fact you can flex with. Every spin = 5 points.</p>
+        <div class="globe-wrap"><div class="globe-pin"></div><div class="globe-big" id="globeBig"></div></div>
+        <button class="btn btn-primary" id="spinBtn" style="width:100%;justify-content:center">Spin It! 🌀</button>
+        <div class="howto"><b>How it works:</b> 12 places on the wheel, 40+ facts. Collect them all — your "places discovered" count shows on the leaderboard.</div>
+      </div>
+      <div class="card">
+        <div class="result" id="globeOut"><div class="big">Kahaan land hoge? 👀</div><p>Press spin. The wheel picks a place, we give you the story.</p></div>
+        <div style="margin-top:16px"><b style="font-size:.85rem">Places discovered</b><div class="chips" id="discovered" style="margin-top:8px"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- YEAR -->
+  <section class="panel" id="p-year" style="padding:0">
+    <div class="game-shell">
+      <div class="card">
+        <h2 class="game-title">⏳ Spin the Year</h2>
+        <p class="game-desc">Pick a year, then a second one — see what changed in between. It's a timeline, not a "good era vs bad era" fight.</p>
+        <button class="btn btn-sky" id="randEra">🎲 Random era pair</button>
+        <div class="howto"><b>How it works:</b> First tap = <span style="color:var(--saffron);font-weight:700">Year A</span>, second tap = <span style="font-weight:700">Year B</span>. Tap again to reset. 5 points per comparison.</div>
+      </div>
+      <div class="card">
+        <div class="era-strip" id="eraStrip"></div>
+        <div id="eraOut"><div class="result"><div class="big">Pick a year to start</div><p>Photos, events and facts from that period, then compare.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="p-quiz" style="padding:0">
+    <div class="game-shell">
+      <div class="card">
+        <h2 class="game-title">🧠 UP Quiz</h2>
+        <p class="game-desc">5 questions, 15 seconds each. 10 points per correct answer, streak bonus for 3-in-a-row.</p>
+        <div class="cat-grid" id="catGrid"></div>
+        <button class="btn btn-primary" id="startQuiz" style="width:100%;justify-content:center">Start Quiz →</button>
+        <div class="howto"><b>Best scores:</b> <span id="bestScores">—</span></div>
+      </div>
+      <div class="card" id="quizCard">
+        <div class="result"><div class="big">Pick a category</div><p>History · Culture · Cities · Development · Schemes · Sports · Food · Personalities</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL -->
+  <section class="panel" id="p-social" style="padding:0">
+    <h2 class="game-title" style="margin-bottom:6px">📲 Social Games</h2>
+    <p class="game-desc">Quick, shareable formats. Play → screenshot → story. 15 points each.</p>
+    <div class="social-grid" id="socialGrid">
+      <button class="sg" data-g="which"><i>🏙️</i><h4>Which UP City Are You?</h4><p>5 questions. Get your city + a roast-level description.</p><span class="meta">~60 sec · 1.2k played today</span></button>
+      <button class="sg" data-g="guess"><i>👀</i><h4>Guess the Place</h4><p>Clues unlock one by one. Fewer clues = more points.</p><span class="meta">~45 sec · 3 clues</span></button>
+      <button class="sg" data-g="meme"><i>😂</i><h4>Complete the UP Meme</h4><p>Fill the blank. Get certified — or get roasted.</p><span class="meta">~30 sec</span></button>
+      <button class="sg" data-g="know"><i>🔥</i><h4>How Well Do You Know UP?</h4><p>Rapid fire, 30 seconds, as many as you can.</p><span class="meta">30 sec · rapid fire</span></button>
+    </div>
+    <div id="socialOut" style="margin-top:22px"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><a href="index.html" class="logo" style="color:var(--paper)">UP<span>Verse</span></a><div class="foot-tag">Your City. Your Voice. Your Vibe.</div><div class="socials"><a href="#">WA</a><a href="#">IG</a><a href="#">YT</a><a href="#">X</a></div></div>
+      <div><h4>Quick Links</h4><ul><li><a href="index.html">About the Movement</a></li><li><a href="games.html">Games</a></li><li><a href="index.html#tea">Daily Tea</a></li><li><a href="index.html#vibe">UP Vibe Check</a></li><li><a href="index.html#city">City Map & Leaderboard</a></li></ul></div>
+      <div><h4>&nbsp;</h4><ul><li><a href="#" data-open="joinModal">Join the Squad</a></li><li><a href="index.html#top">Meetups</a></li><li><a href="#">Contact Us</a></li><li><a href="#">FAQs</a></li></ul></div>
+      <div><h4>Policies</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms & Conditions</a></li><li><a href="#">Community Guidelines</a></li></ul></div>
+    </div>
+    <div class="copy"><span>UPVerse — Your City. Your Voice. Your Vibe.</span><span>© 2026 UPVerse. All Rights Reserved.</span></div>
+  </div>
+</footer>
+
+<div class="modal" id="joinModal"><form class="card" onsubmit="event.preventDefault();this.reset();closeModals();toast('Welcome to the Squad! 🚀')">
+  <button type="button" class="close" data-close>✕</button>
+  <span class="eyebrow">Registration</span><h3>Join the Squad 🚀</h3>
+  <div class="field"><label>Name</label><input required></div>
+  <div class="field"><label>Phone (WhatsApp)</label><input required type="tel" placeholder="+91"></div>
+  <div class="field"><label>City / District</label><input required></div>
+  <div class="cta-choice"><button class="btn btn-primary" type="submit">Slay, I'm In! 💅</button><button class="btn btn-lime" type="submit">Let Me In 🚀</button><button class="btn" type="submit">Count Me In</button></div>
+</form></div>
+<div class="modal" id="gameModal"><div class="card"><button type="button" class="close" data-close>✕</button><div id="gameModalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)};
+function closeModals(){$$('.modal.open').forEach(m=>m.classList.remove('open'));document.body.style.overflow=''}
+document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o){e.preventDefault();const m=document.getElementById(o.dataset.open);if(m){m.classList.add('open');document.body.style.overflow='hidden'}}if(e.target.closest('[data-close]')||e.target.classList.contains('modal'))closeModals()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModals()});
+$('#burger').onclick=()=>$('#navLinks').classList.toggle('open');
+function shareText(t){const full=t+' — via UPVerse Game Zone';if(navigator.share){navigator.share({text:full,url:location.href}).catch(()=>{})}else{navigator.clipboard&&navigator.clipboard.writeText(full+' '+location.href).catch(()=>{});toast('Copied! Share it 📲')}}
+
+/* ---------- POINTS (localStorage) ---------- */
+const store=JSON.parse(localStorage.getItem('upverse')||'{}');
+store.pts=store.pts||0;store.found=store.found||[];store.best=store.best||{};store.city=store.city||'Lucknow';
+const save=()=>localStorage.setItem('upverse',JSON.stringify(store));
+function addPts(n,why){store.pts+=n;save();$('#myPts').textContent=store.pts;toast(`+${n} pts · ${why}`);renderLB()}
+$('#myPts').textContent=store.pts;
+
+/* ---------- LEADERBOARD ---------- */
+const players=[
+ ['Aarav S.','Lucknow','🧑‍🎓',980,4120],['Shreya M.','Varanasi','👩‍🎨',1010,3980],['Kabir M.','Noida','🧑‍💻',1100,3760],['Harsh P.','Kanpur','🧑‍🔧',940,3540],
+ ['Zoya K.','Lucknow','👩‍💼',910,3300],['Aditya N.','Prayagraj','🧑‍🏫',830,3010],['Ishaan G.','Agra','🧑‍🍳',720,2870],['Anurag S.','Gorakhpur','🧑‍🌾',640,2650],
+ ['Simran J.','Noida','👩‍🎤',990,2500],['Anjali M.','Kanpur','👩‍🔬',870,2400],['Tushar B.','Ghaziabad','🧑‍🚀',700,2210],['Ritik V.','Lucknow','🧑‍🎤',860,2100],
+];
+let lbTab='week';
+function renderLB(){
+ let rows=players.map(p=>({n:p[0],c:p[1],a:p[2],pts:lbTab==='all'?p[4]:p[3]}));
+ if(lbTab==='city')rows=rows.filter(r=>r.c===store.city);
+ rows.push({n:'You',c:store.city,a:'⭐',pts:store.pts,you:true});
+ rows.sort((a,b)=>b.pts-a.pts);
+ const top=rows.slice(0,3);
+ $('#podium').innerHTML=[top[1],top[0],top[2]].filter(Boolean).map((r,i)=>`<div class="pod ${i===1?'first':''}"><div class="av">${r.a}</div><div class="nm">${i===1?'👑 ':''}${r.n}</div><div class="ct">${r.c}</div><div class="pt">${r.pts.toLocaleString()} pts</div></div>`).join('');
+ $('#lbBody').innerHTML=rows.slice(3,12).map((r,i)=>`<tr class="${r.you?'you':''}"><td class="r">#${i+4}</td><td>${r.a} ${r.n}</td><td class="c">${r.c}</td><td class="p">${r.pts.toLocaleString()}</td></tr>`).join('')+
+   (rows.findIndex(r=>r.you)>=12?`<tr class="you"><td class="r">#${rows.findIndex(r=>r.you)+1}</td><td>⭐ You</td><td class="c">${store.city}</td><td class="p">${store.pts}</td></tr>`:'');
+}
+$('#lbTabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;$$('#lbTabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');lbTab=b.dataset.t;renderLB()};
+renderLB();
+
+/* ---------- HUB ---------- */
+$('#hub').onclick=e=>{const b=e.target.closest('button');if(!b)return;$$('#hub button').forEach(x=>x.classList.remove('on'));b.classList.add('on');$$('.panel').forEach(p=>p.classList.remove('on'));$('#p-'+b.dataset.p).classList.add('on');history.replaceState(null,'','#'+b.dataset.p)};
+if(location.hash){const b=$(`#hub [data-p="${location.hash.slice(1)}"]`);b&&b.click()}
+
+/* ---------- SPIN THE GLOBE ---------- */
+const places=[
+ {n:'Chunar',d:'Mirzapur',f:['The sandstone for Ashoka\'s pillars — including the Sarnath Lion Capital on your ₹ notes — was quarried here.','Chunar Fort has been held by Sher Shah Suri, Akbar, and the East India Company.']},
+ {n:'Sonbhadra',d:'Sonbhadra',f:['India\'s only district that touches four states: MP, Chhattisgarh, Jharkhand and Bihar.','Called the "Energy Capital of India" for its cluster of thermal power plants.']},
+ {n:'Barsana',d:'Mathura',f:['Home of Lathmar Holi — women playfully chase men with sticks. Tourists fly in for it.','Radha Rani temple sits on Brahmagiri hill, ~250 steps up.']},
+ {n:'Kushinagar',d:'Kushinagar',f:['Where the Buddha attained Mahaparinirvana — now with an international airport (2021).','The 6-metre reclining Buddha statue is from the 5th century.']},
+ {n:'Jaunpur',d:'Jaunpur',f:['The "Shiraz of India" under the Sharqi sultans; the Shahi Bridge (1568) still carries traffic.','Famous for imarti (the sweet) and radish so big it\'s a meme.']},
+ {n:'Bithoor',d:'Kanpur',f:['By tradition, Valmiki wrote the Ramayana here and Luv–Kush were born here.','Nana Saheb\'s base during 1857 — the British destroyed most of the town after.']},
+ {n:'Chitrakoot',d:'Chitrakoot',f:['Ram, Sita and Lakshman spent 11+ years of exile here, per the Ramayana.','Kamadgiri parikrama is 5 km — pilgrims do it barefoot.']},
+ {n:'Sarnath',d:'Varanasi',f:['Buddha gave his first sermon here — the Dhamek Stupa marks the spot.','The Lion Capital (national emblem) was excavated here in 1905.']},
+ {n:'Kannauj',d:'Kannauj',f:['India\'s perfume capital — attar makers still distil in copper degs like 400 years ago.','Once Harsha\'s imperial capital in the 7th century.']},
+ {n:'Dudhwa',d:'Lakhimpur Kheri',f:['A tiger reserve with swamp deer, one-horned rhinos and almost zero crowds.','Rhinos were reintroduced here from Assam in 1984.']},
+ {n:'Kalpi',d:'Jalaun',f:['Traditional birthplace of Ved Vyasa; famous for handmade paper.','Rani Lakshmibai fought a key battle here in 1858.']},
+ {n:'Nawabganj',d:'Unnao',f:['A bird sanctuary that becomes a Siberian crane hotspot every winter — 45 min from Lucknow.','Now officially "Shaheed Chandra Shekhar Azad Bird Sanctuary".']},
+];
+const N=places.length, seg=360/N;
+$('#globeBig').innerHTML=`<svg class="globe-svg" viewBox="0 0 300 300">${places.map((p,i)=>{const a0=(i*seg-90)*Math.PI/180,a1=((i+1)*seg-90)*Math.PI/180;const x0=150+150*Math.cos(a0),y0=150+150*Math.sin(a0),x1=150+150*Math.cos(a1),y1=150+150*Math.sin(a1);const fill=['#F6DDCB','#fff','#ECE9E2','#E8632B'][i%4];const am=(i+.5)*seg-90;return`<path d="M150 150L${x0} ${y0}A150 150 0 0 1 ${x1} ${y1}Z" fill="${fill}" stroke="#DCD7CD"/><text transform="rotate(${am} 150 150) translate(228 150) rotate(90)" text-anchor="middle" font-size="9.5" style="fill:${fill==='#E8632B'?'#fff':'#1C1B1F'}">${p.n}</text>`}).join('')}<circle cx="150" cy="150" r="26" fill="#1C1B1F"/><text x="150" y="156" text-anchor="middle" font-size="18" style="fill:#fff">UP</text></svg>`;
+let rot=0,spinning=false;
+function renderDiscovered(){$('#discovered').innerHTML=places.map(p=>`<span class="chip ${store.found.includes(p.n)?'on':''}" style="font-size:.75rem;padding:5px 10px">${store.found.includes(p.n)?'✓ ':''}${p.n}</span>`).join('')}
+renderDiscovered();
+$('#spinBtn').onclick=()=>{if(spinning)return;spinning=true;const idx=Math.floor(Math.random()*N);
+ // wheel: pointer at top; segment idx center at angle (idx+.5)*seg from top; rotate so it lands under pointer
+ const target=360*4+(360-((idx+.5)*seg))+ (Math.random()*seg*.6-seg*.3);
+ rot=Math.floor(rot/360)*360+target;$('#globeBig').style.transform=`rotate(${rot}deg)`;
+ $('#globeOut').innerHTML='<div class="big">Spinning… 🌀</div>';
+ setTimeout(()=>{const p=places[idx];const f=rnd(p.f);const isNew=!store.found.includes(p.n);if(isNew){store.found.push(p.n);save()}
+  $('#globeOut').innerHTML=`<span class="tag">📍 ${p.d} district</span><div class="big" style="margin-top:8px">${p.n}</div><p>${f}</p><div class="muted">${isNew?'🆕 New place discovered!':'Already discovered — new fact though.'} ${store.found.length}/${N} collected.</div><div class="result-acts"><button class="btn btn-sm btn-primary" onclick="shareText('Bet you didn\\'t know: ${p.n} — ${f.replace(/'/g,'’')}')">Share fact ↗</button><button class="btn btn-sm" onclick="$('#spinBtn').click()">Spin again</button></div>`;
+  renderDiscovered();addPts(isNew?10:5,isNew?'new place':'spin');spinning=false},3100)};
+
+/* ---------- SPIN THE YEAR ---------- */
+const years=[
+ {y:2012,h:'Metro dreams begin',b:['Lucknow Metro gets the green light','Agra–Lucknow Expressway in planning','First Android wave hits tier-2 UP'],k:'planning'},
+ {y:2015,h:'Digital UP, baby steps',b:['Lucknow Metro construction in full swing','Free laptop scheme becomes a college meme','Yamuna Expressway = the road-trip flex'],k:'building'},
+ {y:2017,h:'Expressway era kicks off',b:['Agra–Lucknow Expressway opens (302 km)','Lucknow Metro first stretch runs','Jio + memes: UP internet culture explodes'],k:'opening'},
+ {y:2018,h:'Investment enters the chat',b:['First UP Investors Summit','Kumbh 2019 prep transforms Prayagraj','"UP mein ka ba" style trends go viral'],k:'investing'},
+ {y:2020,h:'The pandemic year',b:['Migrant homecoming — biggest logistics test','Online classes; DigiShakti idea born','Ration & schemes go digital'],k:'adapting'},
+ {y:2021,h:'Purvanchal connected',b:['Purvanchal Expressway opens (341 km)','Kushinagar airport goes international','Kanpur Metro priority corridor launches'],k:'connecting'},
+ {y:2023,h:'Investment year',b:['Global Investors Summit — ₹33L Cr+ MoUs','G20 events in Lucknow, Agra, Varanasi','Ayodhya airport & station rebuilt'],k:'scaling'},
+ {y:2025,h:'Next chapter loading…',b:['Ganga Expressway nearing completion','Jewar airport gears up for launch','Kumbh 2025 breaks attendance records'],k:'accelerating'},
+];
+let eA=null,eB=null;
+$('#eraStrip').innerHTML=years.map((y,i)=>`<button data-i="${i}">${y.y}</button>`).join('');
+function eraCard(y,cls){return`<div class="era-card ${cls}"><div class="yr">${y.y}</div><h5>${y.h}</h5><ul>${y.b.map(b=>`<li>${b}</li>`).join('')}</ul></div>`}
+function renderEra(){$$('#eraStrip button').forEach(b=>{b.className='';if(+b.dataset.i===eA)b.classList.add('a');if(+b.dataset.i===eB)b.classList.add('b')});
+ if(eA===null){$('#eraOut').innerHTML='<div class="result"><div class="big">Pick a year to start</div><p>Photos, events and facts from that period, then compare.</p></div>';return}
+ if(eB===null){$('#eraOut').innerHTML=`<div class="era-cmp">${eraCard(years[eA],'a')}<div class="era-card" style="display:grid;place-items:center;color:var(--muted);text-align:center;border-style:dashed">Now pick <b>Year B</b> to see what changed →</div></div>`;return}
+ const a=years[Math.min(eA,eB)],b=years[Math.max(eA,eB)];const gap=b.y-a.y;
+ $('#eraOut').innerHTML=`<div class="era-cmp">${eraCard(a,'a')}${eraCard(b,'b')}</div><div class="era-diff"><b>${a.y} → ${b.y} · ${gap} years:</b> UP went from <i>${a.k}</i> to <i>${b.k}</i>. Then: ${a.b[0].toLowerCase()}. Now: ${b.b[0].toLowerCase()}.<div class="result-acts"><button class="btn btn-sm btn-primary" onclick="shareText('${a.y} vs ${b.y} in UP ⏳ — from ${a.k} to ${b.k}')">Share comparison</button><button class="btn btn-sm" onclick="eA=null;eB=null;renderEra()">Reset</button></div></div>`;
+ addPts(5,'era comparison')}
+$('#eraStrip').onclick=e=>{const b=e.target.closest('button');if(!b)return;const i=+b.dataset.i;if(eA===null||eB!==null){eA=i;eB=null}else if(i!==eA){eB=i}renderEra()};
+$('#randEra').onclick=()=>{const [x,y]=shuffle(years.map((_,i)=>i)).slice(0,2);eA=x;eB=null;renderEra();eB=y;renderEra()};
+renderEra();
+
+/* ---------- QUIZ ---------- */
+const QB={
+ History:[{q:'Which UP city was Harsha\'s imperial capital in the 7th century?',o:['Kannauj','Mathura','Ayodhya','Kaushambi'],a:0,x:'Kannauj was the seat of Harshavardhana\'s empire.'},{q:'The 1857 uprising\'s first spark was at…',o:['Jhansi','Meerut','Kanpur','Lucknow'],a:1,x:'Meerut, 10 May 1857.'},{q:'The Lion Capital of Ashoka was excavated at…',o:['Sarnath','Kushinagar','Sravasti','Chunar'],a:0,x:'Sarnath, 1905.'},{q:'Which fort in UP was held by Sher Shah Suri and later the East India Company?',o:['Chunar','Jhansi','Kalinjar','Allahabad'],a:0,x:'Chunar Fort, Mirzapur.'},{q:'The Sharqi dynasty ruled from which UP city?',o:['Jaunpur','Etawah','Bareilly','Sambhal'],a:0,x:'Jaunpur — the "Shiraz of India".'}],
+ Culture:[{q:'Lathmar Holi is celebrated in…',o:['Barsana','Vrindavan','Ayodhya','Kashi'],a:0,x:'Barsana & Nandgaon, near Mathura.'},{q:'Chikankari embroidery comes from…',o:['Lucknow','Agra','Kanpur','Aligarh'],a:0,x:'Lucknow — a 400-year-old craft.'},{q:'Kannauj is famous for…',o:['Attar (perfume)','Brassware','Carpets','Glass bangles'],a:0,x:'Attar, distilled in copper degs.'},{q:'The Ram Leela of which city is a UNESCO intangible heritage?',o:['Ramnagar (Varanasi)','Ayodhya','Chitrakoot','Lucknow'],a:0,x:'Ramnagar Ramlila, running since 1830s.'},{q:'Bhojpuri is mainly spoken in which region of UP?',o:['Purvanchal','Bundelkhand','Rohilkhand','Braj'],a:0,x:'Purvanchal — eastern UP.'}],
+ Cities:[{q:'"Manchester of the East" refers to…',o:['Kanpur','Meerut','Agra','Aligarh'],a:0,x:'Kanpur, for its textile mills.'},{q:'Which UP district touches four other states?',o:['Sonbhadra','Lalitpur','Saharanpur','Ballia'],a:0,x:'Sonbhadra.'},{q:'Firozabad is known as the city of…',o:['Glass bangles','Locks','Brass','Petha'],a:0,x:'Suhag Nagri — glass bangles.'},{q:'Which city is called the "Lock City"?',o:['Aligarh','Moradabad','Hathras','Bulandshahr'],a:0,x:'Aligarh.'},{q:'The Sangam of Ganga, Yamuna and Saraswati is at…',o:['Prayagraj','Varanasi','Kanpur','Haridwar'],a:0,x:'Prayagraj.'}],
+ Development:[{q:'The Ganga Expressway connects Meerut to…',o:['Prayagraj','Varanasi','Lucknow','Gorakhpur'],a:0,x:'594 km, Meerut → Prayagraj.'},{q:'Noida International Airport is at…',o:['Jewar','Dadri','Greater Noida West','Ghaziabad'],a:0,x:'Jewar, Gautam Buddh Nagar.'},{q:'The Purvanchal Expressway ends near…',o:['Ghazipur','Gorakhpur','Varanasi','Ballia'],a:0,x:'Ghazipur, 341 km from Lucknow.'},{q:'The Namo Bharat RRTS connects Delhi to…',o:['Meerut','Agra','Aligarh','Panipat'],a:0,x:'Delhi–Meerut, via Ghaziabad.'},{q:'Which UP city got India\'s first urban ropeway project?',o:['Varanasi','Agra','Lucknow','Prayagraj'],a:0,x:'Varanasi — Cantt to Godowlia.'}],
+ Schemes:[{q:'Abhyudaya Yojana provides…',o:['Free coaching for UPSC/NEET/JEE','Free tablets','Farm loans','Housing'],a:0,x:'Free competitive-exam coaching.'},{q:'Kanya Sumangala Yojana supports…',o:['Girl child education & health','Startup founders','Farmers','Senior citizens'],a:0,x:'Staged payouts for girls, birth to graduation.'},{q:'DigiShakti distributes…',o:['Tablets & smartphones','Laptops only','Scholarships','Bicycles'],a:0,x:'Tablets/smartphones to students.'},{q:'The 1076 helpline is for…',o:['CM grievance/complaints','Electricity','Ambulance','Police'],a:0,x:'CM Helpline — any grievance.'},{q:'"One District One Product" promotes…',o:['Local crafts & industries','One crop per district','District tourism','Sports'],a:0,x:'ODOP — Firozabad glass, Bhadohi carpets, etc.'}],
+ Sports:[{q:'Cricketer nicknamed "Kuldeep the chinaman" is from…',o:['Kanpur','Meerut','Lucknow','Bulandshahr'],a:0,x:'Kuldeep Yadav, Kanpur.'},{q:'Bhuvneshwar Kumar hails from…',o:['Meerut','Agra','Kanpur','Ghaziabad'],a:0,x:'Meerut — also home of Praveen Kumar.'},{q:'The Ekana Stadium is in…',o:['Lucknow','Kanpur','Noida','Varanasi'],a:0,x:'Lucknow — home of LSG.'},{q:'Green Park stadium is in…',o:['Kanpur','Lucknow','Agra','Meerut'],a:0,x:'Kanpur, since 1945.'},{q:'Which UP city is India\'s sports-goods hub?',o:['Meerut','Moradabad','Saharanpur','Jalandhar'],a:0,x:'Meerut — bats, balls, kits.'}],
+ Food:[{q:'Tunday Kababi is a legendary spot in…',o:['Lucknow','Kanpur','Varanasi','Rampur'],a:0,x:'Lucknow, Aminabad — since 1905.'},{q:'Petha is the signature sweet of…',o:['Agra','Mathura','Aligarh','Bareilly'],a:0,x:'Agra — ash-gourd sweet.'},{q:'Banarasi paan is famous for…',o:['Its meetha & fold','Being spicy','Being green','Being sugar-free'],a:0,x:'"Khaike paan Banaras wala".'},{q:'Mathura is famous for which sweet?',o:['Peda','Petha','Imarti','Balushahi'],a:0,x:'Mathura ke pede.'},{q:'Thaggu ke Laddu is from…',o:['Kanpur','Lucknow','Agra','Gorakhpur'],a:0,x:'Kanpur — "Aisa koi saga nahi jisko humne thaga nahi".'}],
+ Personalities:[{q:'Premchand, the writer, was born near…',o:['Varanasi','Lucknow','Prayagraj','Gorakhpur'],a:0,x:'Lamhi village, Varanasi.'},{q:'Which UP-born scientist led ISRO\'s Chandrayaan-3 landing project?',o:['P. Veeramuthuvel','Ritu Karidhal','K. Sivan','S. Somanath'],a:1,x:'Ritu Karidhal, "Rocket Woman of India", is from Lucknow.'},{q:'Bismillah Khan, shehnai maestro, is associated with…',o:['Varanasi','Lucknow','Kanpur','Agra'],a:0,x:'Varanasi ghats.'},{q:'Rani Lakshmibai ruled…',o:['Jhansi','Kalpi','Gwalior','Orchha'],a:0,x:'Jhansi.'},{q:'Harivansh Rai Bachchan was born in…',o:['Prayagraj','Lucknow','Kanpur','Agra'],a:0,x:'Prayagraj (Allahabad).'}],
+};
+const CATS=Object.keys(QB),CI={History:'📜',Culture:'🎭',Cities:'🏙️',Development:'🛣️',Schemes:'📋',Sports:'🏏',Food:'🍛',Personalities:'⭐'};
+let cat='Cities';
+$('#catGrid').innerHTML=CATS.map(c=>`<button data-c="${c}" class="${c===cat?'on':''}"><i>${CI[c]}</i>${c}</button>`).join('');
+$('#catGrid').onclick=e=>{const b=e.target.closest('button');if(!b)return;cat=b.dataset.c;$$('#catGrid button').forEach(x=>x.classList.toggle('on',x.dataset.c===cat))};
+function bestStr(){const e=Object.entries(store.best);return e.length?e.map(([k,v])=>`${CI[k]} ${v}/50`).join(' · '):'—'}
+$('#bestScores').textContent=bestStr();
+let qs,qi,qsc,streak,timer,tleft;
+$('#startQuiz').onclick=()=>{qs=shuffle(QB[cat]).slice(0,5).map(q=>{const opts=q.o.map((o,i)=>({o,ok:i===q.a}));return{...q,opts:shuffle(opts)}});qi=0;qsc=0;streak=0;renderQ();if(innerWidth<860)$('#quizCard').scrollIntoView({behavior:'smooth',block:'start'})};
+function renderQ(){clearInterval(timer);if(qi>=qs.length){const best=Math.max(store.best[cat]||0,qsc);store.best[cat]=best;save();$('#bestScores').textContent=bestStr();
+  $('#quizCard').innerHTML=`<div class="result" style="text-align:center"><div class="score-big">${qsc}<span style="font-size:1.2rem;color:var(--muted)">/50</span></div><div class="big">${qsc>=40?'UP ka Sherlock 🕵️':qsc>=20?'Solid. Squad-worthy 🫡':'Time for the Daily Tea ☕'}</div><p>${CI[cat]} ${cat} · best ${best}/50</p><div class="result-acts" style="justify-content:center"><button class="btn btn-sm btn-primary" onclick="shareText('I scored ${qsc}/50 on the UP ${cat} Quiz 🧠')">Share score</button><button class="btn btn-sm" onclick="$('#startQuiz').click()">Play again</button></div></div>`;if(qsc>0)addPts(qsc,'quiz');return}
+ const q=qs[qi];tleft=15;
+ $('#quizCard').innerHTML=`<div class="quiz-meta"><span>${CI[cat]} ${cat} · Q ${qi+1}/5</span><span>Score ${qsc} · ⏱ <span class="timer" id="tl">15</span>s</span></div><div class="qbar"><i style="width:${qi*20}%"></i></div><div class="quiz-q" style="font-size:1.25rem;margin:14px 0">${q.q}</div><div class="quiz-opts">${q.opts.map((o,i)=>`<button data-i="${i}">${o.o}</button>`).join('')}</div><div id="qexp"></div>`;
+ const bts=$$('#quizCard .quiz-opts button');
+ const answer=(i)=>{clearInterval(timer);bts.forEach(b=>b.disabled=true);const okIdx=q.opts.findIndex(o=>o.ok);bts[okIdx].classList.add('ok');let msg;
+  if(i===okIdx){streak++;const bonus=streak>=3?2:1;qsc+=10*bonus;msg=`✅ Correct${bonus>1?' · 🔥 streak ×2':''}. `}else{streak=0;if(i>=0)bts[i].classList.add('bad');msg=i<0?'⏰ Time\'s up. ':'❌ Nope. '}
+  $('#qexp').innerHTML=`<div class="qexp">${msg}${q.x}</div>`;setTimeout(()=>{qi++;renderQ()},1500)};
+ bts.forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+ timer=setInterval(()=>{tleft--;$('#tl').textContent=tleft;if(tleft<=0)answer(-1)},1000)}
+
+/* ---------- SOCIAL GAMES ---------- */
+const cityDesc={Lucknow:['🏛️','Nawabi tehzeeb, unlimited kebabs, and the patience of a saint (till someone cuts the chaat line).'],Kanpur:['🏭','Full jugaad energy. You will fix anything with a rubber band and unbeatable confidence.'],Varanasi:['🛕','Old soul, zero rush. Every problem can be solved over chai at the ghat.'],Noida:['🏙️','Startup brain, metro card in one hand, iced coffee in the other. Deadline? Kya deadline?'],Agra:['🕌','Tourist-proof and unbothered. Petha > Taj, and you\'ll say it out loud.'],Gorakhpur:['🌿','Purvanchal pride. Loyal, loud, and one flyover away from calling it Dubai.']};
+const wcQ=[
+ {q:'Your ideal Sunday?',o:[['Chai + ghat + doing nothing','Varanasi'],['Kebabs and a long walk','Lucknow'],['Startup meetup / gym / brunch','Noida'],['Cricket in the gali, then samose','Kanpur']]},
+ {q:'Your texting style?',o:[['"Pehle aap" energy, super polite','Lucknow'],['Voice notes only, 3 min each','Kanpur'],['Reply after 2 days with "haan bolo"','Varanasi'],['Grammarly + LinkedIn tone','Noida']]},
+ {q:'Pick a flex:',o:[['Heritage & tehzeeb','Lucknow'],['Hustle & jugaad','Kanpur'],['Old-soul wisdom','Varanasi'],['Fastest Wi-Fi in UP','Noida']]},
+ {q:'A tourist asks for directions. You…',o:[['Walk them there + feed them','Gorakhpur'],['Explain with 3 landmarks and a shortcut','Agra'],['Give the address of the nearest chai','Varanasi'],['Send a Google Maps pin','Noida']]},
+ {q:'Your comfort food?',o:[['Petha / bedhai','Agra'],['Litti / chana bhaja','Gorakhpur'],['Thaggu ke laddu','Kanpur'],['Galouti kebab','Lucknow']]},
+];
+const guessSet=[{c:['I have a 450-year-old bridge that still carries traffic','I was called the Shiraz of India','My imarti and radish are famous'],a:'Jaunpur',o:['Jaunpur','Faizabad','Etawah','Bareilly']},{c:['I smell amazing — literally','I distil flowers in copper pots','Emperors sent for my attar'],a:'Kannauj',o:['Kannauj','Rampur','Firozabad','Moradabad']},{c:['My railway platform is among the longest in the world','A famous Gita Press is here','I\'m Purvanchal\'s biggest city'],a:'Gorakhpur',o:['Ballia','Deoria','Gorakhpur','Basti']},{c:['I make the bangles half of India wears','I\'m 40 km from the Taj','Locals call me Suhag Nagri'],a:'Firozabad',o:['Firozabad','Hathras','Etah','Mainpuri']},{c:['I\'m the sports-goods capital','1857 started with me','My revadi is famous'],a:'Meerut',o:['Meerut','Muzaffarnagar','Saharanpur','Baghpat']}];
+const memeSet=[{t:'Kanpur ka traffic ______ hai',o:['ek emotion','ek yojana','ek expressway','ek scheme'],a:0},{t:'Lucknow mein "pehle aap" ka matlab hai ______',o:['aap jao','main hi jaunga','koi nahi jayega','sab jayenge'],a:2},{t:'Prayagraj mein har second flat ek ______ hai',o:['cafe','UPSC library','PG','gym'],a:1},{t:'Noida ke sector numbers ek ______ hain',o:['personality test','pin code','metro line','joke'],a:0},{t:'Banaras mein 5 min ka rasta = 45 min + ______',o:['3 chai + 1 life lesson','1 auto','2 gali','1 boat'],a:0}];
+const allQ=CATS.flatMap(c=>QB[c]);
+const out=$('#socialOut');
+$('#socialGrid').onclick=e=>{const b=e.target.closest('.sg');if(!b)return;out.scrollIntoView({behavior:'smooth',block:'start'});({which,guess,meme,know})[b.dataset.g]()};
+function which(){let step=0,score={};const go=()=>{if(step>=wcQ.length){const win=Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];const [em,d]=cityDesc[win];store.city=win;save();renderLB();
+  out.innerHTML=`<div class="card"><div class="share-card"><small>Which UP City Are You?</small><div class="big">${em} You are ${win}</div><p style="margin-top:6px">${d}</p></div><div class="result-acts"><button class="btn btn-sm btn-primary" onclick="shareText('I got ${win} in Which UP City Are You? ${em}')">Share result</button><button class="btn btn-sm" onclick="which()">Retake</button><a class="btn btn-sm" href="index.html#city">See ${win} Squad</a></div></div>`;addPts(15,'social game');return}
+  const q=wcQ[step];out.innerHTML=`<div class="card"><div class="quiz-meta"><span>🏙️ Which UP City Are You?</span><span>Q ${step+1}/${wcQ.length}</span></div><div class="qbar"><i style="width:${step/wcQ.length*100}%"></i></div><div class="quiz-q" style="font-size:1.25rem;margin:12px 0">${q.q}</div><div class="quiz-opts">${q.o.map((o,i)=>`<button data-i="${i}">${o[0]}</button>`).join('')}</div></div>`;
+  $$('#socialOut .quiz-opts button').forEach(b=>b.onclick=()=>{const c=q.o[+b.dataset.i][1];score[c]=(score[c]||0)+1;step++;go()})};go()}
+function guess(){const g=rnd(guessSet);let shown=1;const render=()=>{out.innerHTML=`<div class="card"><div class="quiz-meta"><span>👀 Guess the Place</span><span>Worth <b>${[30,20,10][shown-1]} pts</b></span></div><div style="margin:12px 0">${g.c.map((c,i)=>`<div class="clue ${i<shown?'':'locked'}">${i<shown?'💡 '+c:'🔒 Clue '+(i+1)+' locked'}</div>`).join('')}</div>${shown<3?`<button class="btn btn-sm" id="moreClue">Unlock next clue (−10 pts)</button>`:''}<div class="quiz-opts" style="margin-top:12px">${g.o.map(o=>`<button>${o}</button>`).join('')}</div></div>`;
+  const mc=$('#moreClue');if(mc)mc.onclick=()=>{shown++;render()};
+  $$('#socialOut .quiz-opts button').forEach(b=>b.onclick=()=>{$$('#socialOut .quiz-opts button').forEach(x=>x.disabled=true);const ok=b.textContent===g.a;b.classList.add(ok?'ok':'bad');const pts=ok?[30,20,10][shown-1]:0;
+   out.querySelector('.card').insertAdjacentHTML('beforeend',`<div class="share-card"><div class="big">${ok?'Sahi! 🎯':'Arre nahi 😅'} It's ${g.a}</div><small>${ok?`+${pts} pts with ${shown} clue${shown>1?'s':''}`:'Zero pts — but now you know.'}</small><div class="result-acts"><button class="btn btn-sm btn-primary" onclick="shareText('Guess the Place 👀 — I ${ok?'nailed':'flopped'} ${g.a} in ${shown} clue(s)!')">Share</button><button class="btn btn-sm" style="background:#fff" onclick="guess()">Next place</button></div></div>`);if(ok)addPts(pts,'guess the place')})};render()}
+function meme(){const m=rnd(memeSet);out.innerHTML=`<div class="card"><div class="quiz-meta"><span>😂 Complete the UP Meme</span></div><div class="quiz-q" style="font-size:1.4rem;margin:14px 0">"${m.t}"</div><div class="quiz-opts">${m.o.map((o,i)=>`<button data-i="${i}">${o}</button>`).join('')}</div></div>`;
+ $$('#socialOut .quiz-opts button').forEach(b=>b.onclick=()=>{$$('#socialOut .quiz-opts button').forEach(x=>x.disabled=true);const ok=+b.dataset.i===m.a;b.classList.add(ok?'ok':'bad');const full=m.t.replace('______',m.o[m.a]);
+  out.querySelector('.card').insertAdjacentHTML('beforeend',`<div class="share-card"><div class="big">${ok?'Certified UP-waala 😂':'Bhai, meme literacy course lo 📚'}</div><p>"${full}"</p><div class="result-acts"><button class="btn btn-sm btn-primary" onclick="shareText('${full.replace(/'/g,'’')} 😂')">Share</button><button class="btn btn-sm" style="background:#fff" onclick="meme()">Next meme</button></div></div>`);addPts(ok?15:5,'meme game')})}
+function know(){let pool=shuffle(allQ),i=0,s=0,t=30,tm;const go=()=>{if(i>=pool.length||t<=0){clearInterval(tm);out.innerHTML=`<div class="card"><div class="share-card" style="text-align:center"><small>How Well Do You Know UP? · 30s rapid fire</small><div class="score-big" style="color:var(--peach)">${s}</div><div class="big">${s>=8?'UP Expert 🏆':s>=5?'Squad ready 🫡':'Beginner (for now) 🌱'}</div><small>${i} attempted · ${s} correct</small></div><div class="result-acts"><button class="btn btn-sm btn-primary" onclick="shareText('How Well Do You Know UP? — ${s} correct in 30 seconds 🔥')">Share score</button><button class="btn btn-sm" onclick="know()">Again</button></div></div>`;if(s>0)addPts(s*5+15,'rapid fire');return}
+  const q=pool[i];const opts=shuffle(q.o.map((o,j)=>({o,ok:j===q.a})));out.innerHTML=`<div class="card"><div class="quiz-meta"><span>🔥 Rapid fire</span><span>✅ ${s} · ⏱ <span class="timer" id="kt">${t}</span>s</span></div><div class="quiz-q" style="font-size:1.2rem;margin:12px 0">${q.q}</div><div class="quiz-opts">${opts.map((o,j)=>`<button data-i="${j}">${o.o}</button>`).join('')}</div></div>`;
+  $$('#socialOut .quiz-opts button').forEach(b=>b.onclick=()=>{if(opts[+b.dataset.i].ok)s++;i++;go()})};
+ tm=setInterval(()=>{t--;const el=$('#kt');if(el)el.textContent=t;if(t<=0){clearInterval(tm);go()}},1000);go()}
+</script>
+</body>
+</html>

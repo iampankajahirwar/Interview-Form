@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>मतदाता जातिगत संरचना सर्वेक्षण — शोध अध्ययन</title>
+<style>
+  :root{
+    --paper:#F3F6EF;
+    --ink:#22321F;
+    --green-deep:#1F3D2B;
+    --green:#3E6B4A;
+    --green-mid:#5C8A63;
+    --sage:#8FAE86;
+    --sage-light:#E7F0E1;
+    --line:#D3DEC9;
+    --line-strong:#AFC29F;
+    --amber:#8A6D1F;
+    --amber-bg:#F5EFD9;
+    --red:#A23B32;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hind","Noto Sans Devanagari","Noto Sans","Segoe UI",sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+
+  header.masthead{
+    background:
+      repeating-linear-gradient(180deg, rgba(255,255,255,.03) 0px, rgba(255,255,255,.03) 27px, transparent 27px, transparent 28px),
+      linear-gradient(180deg,#152B1D,var(--green-deep));
+    color:#EEF3E9;
+    padding:24px 20px 22px;
+    border-bottom:4px solid var(--sage);
+  }
+  .masthead-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;gap:14px;}
+  .masthead-mark{
+    width:46px;height:46px;flex:0 0 auto;border:2px solid var(--sage);border-radius:8px;
+    display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--sage);
+    transform:rotate(-3deg);
+  }
+  .masthead-title{font-size:1.3rem;font-weight:700;}
+  .masthead-sub{font-size:.83rem;color:#C7D6C0;margin-top:3px;}
+  .masthead-tag{font-size:.72rem;color:#9FB596;margin-top:8px;letter-spacing:.3px;}
+
+  main{max-width:920px;margin:0 auto;padding:20px 16px 0;}
+
+  .disclaimer{
+    background:var(--amber-bg);
+    border:1px solid #D9C88A;
+    border-left:5px solid var(--amber);
+    border-radius:5px;
+    padding:13px 16px;
+    font-size:.87rem;
+    color:#5C4A16;
+    margin-bottom:20px;
+  }
+  .disclaimer b{color:var(--amber);}
+
+  .research-strip{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    font-size:.78rem;
+    color:var(--green);
+    margin:4px 0 18px;
+    padding:0 2px;
+  }
+  .research-strip span b{color:var(--green-deep);}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:20px 20px 22px;
+    margin-bottom:20px;
+    box-shadow:0 1px 2px rgba(34,50,31,.04);
+  }
+  .card h2{
+    margin:0 0 14px;
+    font-size:1.02rem;
+    color:var(--green-deep);
+    display:flex;align-items:baseline;gap:8px;
+    border-bottom:2px dashed var(--line-strong);
+    padding-bottom:10px;
+  }
+  .card h2 .num{color:var(--green);font-weight:700;}
+
+  label{display:block;font-size:.86rem;color:#4C5C48;margin-bottom:5px;}
+  .req::after{content:" *";color:var(--red);}
+
+  select, input[type="text"], input[type="number"], textarea{
+    width:100%;padding:9px 10px;border:1px solid var(--line-strong);border-radius:5px;
+    background:#FBFCF9;color:var(--ink);font-family:inherit;font-size:.95rem;
+  }
+  select:focus, input:focus, textarea:focus{
+    outline:2px solid var(--sage);outline-offset:1px;border-color:var(--green-mid);
+  }
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .field{margin-bottom:14px;}
+  @media (max-width:620px){.grid2{grid-template-columns:1fr;}}
+
+  .panchayat-meta-strip{
+    display:flex;flex-wrap:wrap;gap:8px 18px;background:var(--sage-light);
+    border:1px dashed var(--line-strong);border-radius:5px;padding:10px 14px;
+    margin-top:2px;font-size:.85rem;color:var(--green-deep);
+  }
+  .panchayat-meta-strip b{color:var(--green);}
+
+  table.matrix{width:100%;border-collapse:collapse;margin-top:6px;font-size:.9rem;}
+  table.matrix th{background:var(--green-deep);color:#EEF3E9;text-align:right;padding:9px 8px;font-weight:600;font-size:.8rem;}
+  table.matrix th:first-child, table.matrix td:first-child{text-align:center;width:34px;}
+  table.matrix td{border-bottom:1px solid var(--line);padding:7px 6px;vertical-align:top;}
+  table.matrix input, table.matrix select{padding:7px 8px;font-size:.88rem;}
+  table.matrix tr:nth-child(even) td{background:#F8FAF6;}
+  .rm-row{background:none;border:1px solid var(--red);color:var(--red);border-radius:5px;width:30px;height:30px;cursor:pointer;font-size:1rem;line-height:1;}
+  .rm-row:hover{background:var(--red);color:#fff;}
+
+  .matrix-actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:10px;}
+  .btn{border:none;border-radius:5px;padding:9px 16px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;}
+  .btn-add{background:var(--green-mid);color:#fff;}
+  .btn-add:hover{background:var(--green);}
+  .btn-primary{background:var(--green-deep);color:#fff;}
+  .btn-primary:hover{background:#132817;}
+  .btn-ghost{background:transparent;border:1px solid var(--line-strong);color:var(--green-deep);}
+  .btn-ghost:hover{border-color:var(--green);}
+
+  .totals-strip{margin-top:12px;padding:10px 14px;border-radius:5px;font-size:.87rem;display:flex;gap:22px;flex-wrap:wrap;}
+  .totals-ok{background:#E4F0E0;color:#20401F;border:1px solid #BEDDB4;}
+  .totals-warn{background:#FBEBE3;color:#7A3A22;border:1px solid #EDC4A9;}
+  .totals-strip b{font-weight:700;}
+
+  .submit-row{display:flex;justify-content:flex-end;gap:10px;margin-top:4px;flex-wrap:wrap;}
+
+  .backend-badge{
+    font-size:.76rem;padding:5px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;
+  }
+  .backend-on{background:#E4F0E0;color:#20401F;border:1px solid #BEDDB4;}
+  .backend-off{background:#FBEBE3;color:#7A3A22;border:1px solid #EDC4A9;}
+
+  .saved-list{margin-top:8px;}
+  .saved-item{
+    border:1px solid var(--line);border-radius:5px;padding:10px 12px;margin-bottom:8px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+    font-size:.87rem;background:#FBFCF9;
+  }
+  .saved-item .meta{color:var(--green-deep);}
+  .saved-item .meta b{color:var(--green);}
+  .saved-item .actions{display:flex;gap:6px;}
+  .saved-item .actions button{font-size:.78rem;padding:5px 10px;border-radius:4px;border:1px solid var(--line-strong);background:#fff;cursor:pointer;}
+  .saved-item .actions button:hover{border-color:var(--green);}
+  .empty-note{color:#8A9686;font-size:.87rem;padding:6px 2px;}
+
+  .toast{
+    position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--green-deep);color:#EEF3E9;padding:11px 20px;border-radius:6px;font-size:.88rem;
+    border-left:4px solid var(--sage);opacity:0;pointer-events:none;transition:opacity .25s ease, transform .25s ease;z-index:50;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .helptext{font-size:.78rem;color:#8A9686;margin-top:4px;}
+  footer.note{max-width:920px;margin:10px auto 0;padding:0 16px;font-size:.78rem;color:#8A9686;text-align:center;}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-mark">श</div>
+    <div>
+      <div class="masthead-title">ग्रामीण समुदायों की सामाजिक संरचना का अध्ययन</div>
+      <div class="masthead-sub">लघु शोध परियोजना (छात्र असाइनमेंट) &nbsp;|&nbsp; क्षेत्र सर्वेक्षण प्रपत्र &nbsp;|&nbsp; उत्तर प्रदेश</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="disclaimer">
+    <b>शोध परिचय:</b> यह प्रपत्र सामाजिक विज्ञान की एक छात्र शोध परियोजना (कक्षा असाइनमेंट) के क्षेत्र-अध्ययन हेतु है, जिसका उद्देश्य ग्राम पंचायत स्तर पर विभिन्न सामाजिक समूहों के वितरण को समझना है। यहाँ भरे गए आँकड़े अनुमानित/सूची-आधारित होते हैं, किसी व्यक्ति की पहचान दर्ज नहीं की जाती, और जानकारी का उपयोग केवल शैक्षणिक विश्लेषण व रिपोर्ट लेखन में किया जाएगा।
+  </div>
+
+  <div class="research-strip">
+    <span>अध्ययन का आधार: <b>10 अप्रैल 2026 की मतदाता सूची</b></span>
+    <span id="backendStatusStrip"></span>
+  </div>
+
+  <!-- SECTION 1: GRAM PANCHAYAT SELECTION -->
+  <section class="card">
+    <h2><span class="num">भाग 1.</span> अध्ययन क्षेत्र का विवरण</h2>
+
+    <div class="grid2">
+      <div class="field">
+        <label class="req">प्रशासनिक जिला चुनें</label>
+        <div id="districtWrap"></div>
+      </div>
+      <div class="field">
+        <label class="req">विधानसभा चुनें</label>
+        <div id="assemblyWrap"></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="field">
+        <label class="req">ब्लॉक चुनें</label>
+        <div id="blockWrap"></div>
+      </div>
+      <div class="field">
+        <label class="req">ग्राम पंचायत चुनें</label>
+        <div id="panchayatWrap"></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="field">
+        <label class="req" for="totalVoters">ग्राम पंचायत में कुल मतदाताओं की संख्या</label>
+        <input id="totalVoters" type="number" min="1" max="6000" step="1" placeholder="उदाहरण: 1150">
+        <div class="helptext" id="voterLimitMsg" style="color:#8A9686;">अधिकतम सीमा: 6000 मतदाता प्रति ग्राम पंचायत</div>
+        <div class="helptext">10 अप्रैल 2026 को प्रकाशित नई मतदाता सूची के अनुसार</div>
+      </div>
+    </div>
+
+    <div class="panchayat-meta-strip" id="panchayatMetaStrip">
+      चयनित ग्राम पंचायत विवरण यहाँ दिखेगा — जिला, विधानसभा, ब्लॉक, ग्राम पंचायत व कुल मतदाता भरने पर।
+    </div>
+  </section>
+
+  <!-- SECTION 2: CASTE MATRIX -->
+  <section class="card">
+    <h2><span class="num">भाग 2.</span> सामाजिक समूहों (जाति) का वितरण — अनुमानित</h2>
+
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>क्र.</th>
+          <th style="text-align:right;width:26%;">जाति</th>
+          <th style="text-align:right;width:16%;">मतदाता संख्या</th>
+          <th style="text-align:right;width:13%;">प्रतिशत (%)</th>
+          <th style="text-align:right;">टिप्पणी (Remarks)</th>
+          <th style="width:34px;"></th>
+        </tr>
+      </thead>
+      <tbody id="matrixBody"></tbody>
+    </table>
+
+    <datalist id="caste-list"></datalist>
+
+    <div class="matrix-actions">
+      <button type="button" class="btn btn-add" id="addRowBtn">+ पंक्ति जोड़ें</button>
+      <span class="helptext" style="margin:0;">प्रतिशत, कुल मतदाता व मतदाता संख्या के आधार पर स्वतः गणना होती है</span>
+    </div>
+
+    <div class="totals-strip" id="totalsStrip"></div>
+  </section>
+
+  <div class="submit-row">
+    <button type="button" class="btn btn-ghost" id="clearBtn">फॉर्म साफ़ करें</button>
+    <button type="button" class="btn btn-primary" id="saveBtn">प्रतिक्रिया सबमिट करें</button>
+  </div>
+
+</main>
+
+<footer class="note">यह प्रपत्र एक छात्र शोध परियोजना (असाइनमेंट) का हिस्सा है; इसका कोई आधिकारिक/प्रशासनिक स्वरूप नहीं है। लखनऊ व वाराणसी के नाम नमूना (डेमो) हैं।</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==========================================================================
+   कॉन्फ़िगरेशन (CONFIG) — यहाँ अपनी सूचियाँ व बैकएंड सेटिंग भरें
+   ========================================================================== */
+const CONFIG = {
+  // एक ग्राम पंचायत में अधिकतम मतदाता (सीमा)
+  MAX_VOTERS: 6000,
+
+  // बैकएंड कहाँ डेटा भेजा जाए: "none" | "sheet" | "supabase"
+  BACKEND: "none",
+
+  // विकल्प A — Google Sheet (Apps Script वेब ऐप). नीचे README_STEPS देखें।
+  SHEET_WEB_APP_URL: "",
+
+  // विकल्प B — Supabase (मुफ़्त Postgres डेटाबेस)
+  SUPABASE_URL: "",           // उदाहरण: "https://xxxx.supabase.co"
+  SUPABASE_ANON_KEY: "",
+  SUPABASE_TABLE: "booth_responses",
+
+  // ---- सूचियाँ: यहाँ अपनी वास्तविक सूचियाँ भरें ----
+  // जिला सूची खाली छोड़ने पर उत्तर प्रदेश के 75 जिलों की डिफ़ॉल्ट सूची उपयोग होगी।
+  DISTRICTS: [],
+
+  // नोट: आगरा की सूची आपकी GP फ़ाइल (अछनेरा व अकोला ब्लॉक) से ली गई है, विधानसभा AC नंबर सहित। लखनऊ व वाराणसी केवल नमूना (डेमो) डेटा हैं।
+  // अन्य जिलों में ये फ़ील्ड टेक्स्ट-बॉक्स के रूप में दिखेंगे।
+
+  // विधानसभा सूची जिला अनुसार। उदाहरण:
+  // { "लखनऊ": ["लखनऊ पूर्व","लखनऊ पश्चिम","लखनऊ उत्तर"] }
+  // खाली छोड़ने पर उस जिले के लिए विधानसभा टेक्स्ट-बॉक्स के रूप में दिखेगी।
+  ASSEMBLIES_BY_DISTRICT: {
+    "आगरा": ["90 - आगरा ग्रामीण (अ.जा.)", "91 - फतेहपुर सीकरी"],
+    "लखनऊ": ["बख्शी का तालाब", "सरोजिनी नगर", "मलिहाबाद (अ.जा.)", "मोहनलालगंज (अ.जा.)"],
+    "वाराणसी": ["पिंडरा", "अजगरा (अ.जा.)", "शिवपुर", "रोहनिया", "सेवापुरी"]
+  },
+
+  // ब्लॉक सूची — कुंजी: "जिला|||विधानसभा"। उदाहरण:
+  // { "लखनऊ|||लखनऊ पूर्व": ["ब्लॉक A","ब्लॉक B"] }
+  // खाली छोड़ने पर ब्लॉक टेक्स्ट-बॉक्स के रूप में दिखेगा।
+  BLOCKS_BY_ASSEMBLY: {
+    "आगरा|||90 - आगरा ग्रामीण (अ.जा.)": ["अकोला"],
+    "आगरा|||91 - फतेहपुर सीकरी": ["अछनेरा", "अकोला"],
+    "लखनऊ|||बख्शी का तालाब": ["बख्शी का तालाब", "माल"],
+    "लखनऊ|||सरोजिनी नगर": ["सरोजिनी नगर", "चिनहट"],
+    "लखनऊ|||मलिहाबाद (अ.जा.)": ["मलिहाबाद", "काकोरी"],
+    "लखनऊ|||मोहनलालगंज (अ.जा.)": ["मोहनलालगंज", "गोसाईंगंज"],
+    "वाराणसी|||पिंडरा": ["पिंडरा", "बड़ागाँव"],
+    "वाराणसी|||अजगरा (अ.जा.)": ["हरहुआ", "चिरईगाँव"],
+    "वाराणसी|||शिवपुर": ["काशी विद्यापीठ", "चोलापुर"],
+    "वाराणसी|||रोहनिया": ["आराजीलाइन", "काशी विद्यापीठ"],
+    "वाराणसी|||सेवापुरी": ["सेवापुरी"]
+  },
+
+  // ग्राम पंचायत सूची — कुंजी: "जिला|||विधानसभा|||ब्लॉक"। उदाहरण:
+  // { "लखनऊ|||लखनऊ पूर्व|||ब्लॉक A": ["ग्राम पंचायत 1","ग्राम पंचायत 2"] }
+  // खाली छोड़ने पर ग्राम पंचायत टेक्स्ट-बॉक्स के रूप में दिखेगा।
+  PANCHAYATS_BY_BLOCK: {
+    "आगरा|||90 - आगरा ग्रामीण (अ.जा.)|||अकोला": ["अकोला", "अभयपुरा", "खेडाभगौर", "गामरी", "जारूआ कटरा", "धनौली", "पिनानी रामनगर"],
+    "आगरा|||91 - फतेहपुर सीकरी|||अछनेरा": ["अंगनपुरा", "अकबरा", "अटूस", "अभैदोपुरा", "अरदाया", "अरसना", "अरूआ खास", "कचोरा", "कठवारी", "कीठम", "कुकथला", "खडवाई", "खडासाधन", "खेडा बाकन्दा", "गढी चनदरभान", "गढीमा", "गोपऊ", "गोवरा", "छपोखर", "जनूथा", "झारोठी", "नगला अररूआ", "नागर", "पनवारी", "पुरामना", "फतेहपुरा", "बरौली", "बसैयाराजपूत", "भंडीरी", "भिलावटी", "मई", "मगूररा", "महुअर", "मागरोलगूजर", "मागरोलजाट", "मुरनडा", "मुवारिजपुर", "रायभा", "रूनकता", "रैपुराअहीर", "लोहकररा", "वयारा", "ववरोद", "वसतई", "विधापुर", "सहता", "सहाई", "साधन", "सीगना", "हसला", "धनौली", "सकतपुर"],
+    "आगरा|||91 - फतेहपुर सीकरी|||अकोला": ["अखवाई", "इकरामनगर", "उजरई", "कराहरा", "खेडिया", "गहर्रा कला", "गहर्रा खुर्द", "चौकोरा", "जिटौरा", "जैगारा", "डावली", "नगला सिकरवार", "नहचानी", "नारौल", "बडौदा सदर"],
+    "लखनऊ|||बख्शी का तालाब|||बख्शी का तालाब": ["रामपुर", "शिवपुर खुर्द", "हसनपुर", "भवानीपुर", "नयागाँव"],
+    "लखनऊ|||बख्शी का तालाब|||माल": ["दौलतपुर", "सराय माफ़ी", "गोपालपुर", "कुशमौरा", "बेलवा"],
+    "लखनऊ|||सरोजिनी नगर|||सरोजिनी नगर": ["अमानीगंज", "मदनपुर", "पिपरा", "जैतपुर", "बरौली"],
+    "लखनऊ|||सरोजिनी नगर|||चिनहट": ["धनौरा", "लोधपुर", "इस्माइलगंज", "सिकंदरपुर", "महमूदनगर"],
+    "लखनऊ|||मलिहाबाद (अ.जा.)|||मलिहाबाद": ["रहीमाबाद", "कसमंडी", "अटौरा", "बनी", "गढ़ी कला"],
+    "लखनऊ|||मलिहाबाद (अ.जा.)|||काकोरी": ["मोहिउद्दीनपुर", "सफ़ीपुर", "कैथी", "रसूलपुर", "सुरजनपुर"],
+    "लखनऊ|||मोहनलालगंज (अ.जा.)|||मोहनलालगंज": ["निगोहाँ", "नरायनपुर", "बेहटा", "भटगाँव", "खुजौली"],
+    "लखनऊ|||मोहनलालगंज (अ.जा.)|||गोसाईंगंज": ["इंदौरा", "पहाड़पुर", "तेलीबाग़ खुर्द", "अकबरनगर", "करौंदी"],
+    "वाराणसी|||पिंडरा|||पिंडरा": ["हरहुआ खुर्द", "सजोई", "भिटारी", "लठिया", "देवरिया"],
+    "वाराणसी|||पिंडरा|||बड़ागाँव": ["कैथौली", "अमरा", "सुजाबाद", "पुआरी", "रमचंदीपुर"],
+    "वाराणसी|||अजगरा (अ.जा.)|||हरहुआ": ["जक्खिनी", "मुड़ादेव", "बहुतरा", "पलिया", "दानापुर"],
+    "वाराणसी|||अजगरा (अ.जा.)|||चिरईगाँव": ["गोरैया", "उदयपुर", "मिर्ज़ापुर खुर्द", "कोटवा", "रतनपुर"],
+    "वाराणसी|||शिवपुर|||काशी विद्यापीठ": ["चौबेपुर", "गजोखर", "सारनाथ खुर्द", "कादीपुर", "महमूरगंज"],
+    "वाराणसी|||शिवपुर|||चोलापुर": ["तिलमापुर", "कंदवा", "पड़ाव", "धरहरा", "बेनीपुर"],
+    "वाराणसी|||रोहनिया|||आराजीलाइन": ["रामेश्वर", "भगवानपुर", "सहजौली", "मिल्कीपुर", "गंगापुर"],
+    "वाराणसी|||रोहनिया|||काशी विद्यापीठ": ["रोहनिया कला", "अखरी", "बरैनी", "लहरतारा", "सुंदरपुर"],
+    "वाराणसी|||सेवापुरी|||सेवापुरी": ["बेलवा कलाँ", "हरिपुर", "नंदनपुर", "चंदापुर", "मिर्ज़ामुराद"]
+  },
+
+  // जाति सूची — खाली छोड़ने पर सामान्य डिफ़ॉल्ट सूची दिखेगी।
+  CASTES: []
+};
+
+/* ========================================================================== */
+
+const UP_DISTRICTS_DEFAULT = ["आगरा","अलीगढ़","प्रयागराज","अंबेडकर नगर","अमेठी","अमरोहा","औरैया","अयोध्या",
+"आज़मगढ़","बागपत","बहराइच","बलिया","बलरामपुर","बांदा","बाराबंकी","बरेली","बस्ती","भदोही",
+"बिजनौर","बदायूं","बुलंदशहर","चंदौली","चित्रकूट","देवरिया","एटा","इटावा","फर्रुखाबाद","फतेहपुर",
+"फिरोजाबाद","गौतम बुद्ध नगर","गाजियाबाद","गाजीपुर","गोंडा","गोरखपुर","हमीरपुर","हापुड़","हरदोई",
+"हाथरस","जालौन","जौनपुर","झांसी","कन्नौज","कानपुर देहात","कानपुर नगर","कासगंज","कौशांबी",
+"लखीमपुर खीरी","कुशीनगर","ललितपुर","लखनऊ","महराजगंज","महोबा","मैनपुरी","मथुरा","मऊ","मेरठ",
+"मिर्जापुर","मुरादाबाद","मुजफ्फरनगर","पीलीभीत","प्रतापगढ़","रायबरेली","रामपुर","सहारनपुर","संभल",
+"संत कबीर नगर","शाहजहांपुर","शामली","श्रावस्ती","सिद्धार्थनगर","सीतापुर","सोनभद्र","सुल्तानपुर",
+"उन्नाव","वाराणसी"].sort((a,b)=>a.localeCompare(b,'hi'));
+
+const CASTE_DEFAULT = ["ब्राह्मण","ठाकुर / राजपूत","वैश्य","कायस्थ","भूमिहार","यादव","कुर्मी","लोध","जाट",
+"कुशवाहा / मौर्य / शाक्य / सैनी","निषाद / केवट / मल्लाह / बिंद","राजभर","पाल / गड़रिया",
+"जाटव / चमार","पासी","वाल्मीकि","धोबी","कोरी","खटीक","मुस्लिम - पठान","मुस्लिम - अंसारी / जुलाहा",
+"मुस्लिम - शेख","मुस्लिम - सैयद","सिख","अन्य"];
+
+function escapeHtml(s){
+  return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ---------------- storage abstraction: Claude artifact storage OR localStorage ---------------- */
+const hasClaudeStorage = (typeof window.storage !== 'undefined');
+
+async function storageSet(key, value){
+  if(hasClaudeStorage){ try{ return await window.storage.set(key, value, false); }catch(e){ return null; } }
+  try{ localStorage.setItem(key, value); return {key, value}; }catch(e){ return null; }
+}
+async function storageGet(key){
+  if(hasClaudeStorage){ try{ return await window.storage.get(key, false); }catch(e){ return null; } }
+  const v = localStorage.getItem(key);
+  return v!==null ? {key, value:v} : null;
+}
+async function storageDelete(key){
+  if(hasClaudeStorage){ try{ return await window.storage.delete(key, false); }catch(e){ return null; } }
+  try{ localStorage.removeItem(key); return {key, deleted:true}; }catch(e){ return null; }
+}
+async function storageListKeys(prefix){
+  if(hasClaudeStorage){
+    try{ const r = await window.storage.list(prefix, false); return (r && r.keys) ? r.keys : []; }
+    catch(e){ return []; }
+  }
+  try{ return Object.keys(localStorage).filter(k=>k.startsWith(prefix)); }catch(e){ return []; }
+}
+
+/* ---------------- cascading district > assembly > block > gram panchayat ---------------- */
+let districtEl, assemblyEl, blockEl, panchayatEl;
+
+const OTHER_VAL = '__other__';
+
+// हमेशा ड्रॉपडाउन (select) बनाता है; सूची में न हो तो "अन्य (स्वयं लिखें)" से टाइप किया जा सकता है।
+function buildSelectOrInput(wrapId, options, placeholder, onChange, emptyMsg){
+  const wrap = document.getElementById(wrapId);
+  wrap.innerHTML = '';
+  const hasOptions = !!(options && options.length);
+
+  const sel = document.createElement('select');
+  sel.innerHTML =
+    `<option value="">${hasOptions ? '— चुनें —' : escapeHtml(emptyMsg || '— डेटा उपलब्ध नहीं —')}</option>` +
+    (hasOptions ? options.map(o=>`<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join('') : '') +
+    `<option value="${OTHER_VAL}">अन्य (स्वयं लिखें)</option>`;
+
+  const inp = document.createElement('input');
+  inp.type = 'text'; inp.placeholder = placeholder;
+  inp.style.display = 'none'; inp.style.marginTop = '6px';
+
+  const api = {
+    tagName: 'SELECT',
+    get value(){ return sel.value === OTHER_VAL ? inp.value.trim() : sel.value; },
+    set value(v){
+      v = v || '';
+      if(!v){ sel.value = ''; inp.style.display='none'; inp.value=''; }
+      else if(options && options.includes(v)){ sel.value = v; inp.style.display='none'; inp.value=''; }
+      else { sel.value = OTHER_VAL; inp.value = v; inp.style.display='block'; }
+    }
+  };
+
+  sel.addEventListener('change', ()=>{
+    if(sel.value === OTHER_VAL){ inp.style.display='block'; inp.focus(); }
+    else { inp.style.display='none'; inp.value=''; }
+    onChange(api.value);
+  });
+  inp.addEventListener('input', ()=>updatePanchayatMeta());
+  inp.addEventListener('change', ()=>onChange(api.value));   // आगे की सूचियाँ टाइप पूरा होने पर बदलें
+
+  wrap.appendChild(sel);
+  wrap.appendChild(inp);
+  return api;
+}
+
+function initDistrict(){
+  const list = CONFIG.DISTRICTS.length ? CONFIG.DISTRICTS.slice().sort((a,b)=>a.localeCompare(b,'hi')) : UP_DISTRICTS_DEFAULT;
+  districtEl = buildSelectOrInput('districtWrap', list, 'जिला का नाम लिखें', (val)=>{
+    initAssembly(val);
+    updatePanchayatMeta();
+  });
+  initAssembly('');
+}
+function initAssembly(district){
+  const list = CONFIG.ASSEMBLIES_BY_DISTRICT[district] || [];
+  assemblyEl = buildSelectOrInput('assemblyWrap', list, 'विधानसभा क्षेत्र का नाम लिखें', (val)=>{
+    initBlock(district, val);
+    updatePanchayatMeta();
+  }, district ? '— इस जिले की सूची उपलब्ध नहीं —' : '— पहले जिला चुनें —');
+  initBlock(district, '');
+}
+function initBlock(district, assembly){
+  const list = CONFIG.BLOCKS_BY_ASSEMBLY[`${district}|||${assembly}`] || [];
+  blockEl = buildSelectOrInput('blockWrap', list, 'ब्लॉक का नाम लिखें', (val)=>{
+    initPanchayat(district, assembly, val);
+    updatePanchayatMeta();
+  }, assembly ? '— इस विधानसभा की सूची उपलब्ध नहीं —' : '— पहले विधानसभा चुनें —');
+  initPanchayat(district, assembly, '');
+}
+function initPanchayat(district, assembly, block){
+  const list = CONFIG.PANCHAYATS_BY_BLOCK[`${district}|||${assembly}|||${block}`] || [];
+  panchayatEl = buildSelectOrInput('panchayatWrap', list, 'ग्राम पंचायत का नाम लिखें', ()=>updatePanchayatMeta(),
+    block ? '— इस ब्लॉक की सूची उपलब्ध नहीं —' : '— पहले ब्लॉक चुनें —');
+}
+function getDistrict(){ return districtEl ? districtEl.value : ''; }
+function getAssembly(){ return assemblyEl ? assemblyEl.value : ''; }
+function getBlock(){ return blockEl ? blockEl.value : ''; }
+function getPanchayat(){ return panchayatEl ? panchayatEl.value : ''; }
+
+function populateCasteList(){
+  const dl = document.getElementById('caste-list');
+  const list = CONFIG.CASTES.length ? CONFIG.CASTES : CASTE_DEFAULT;
+  dl.innerHTML = list.map(c=>`<option value="${escapeHtml(c)}"></option>`).join('');
+}
+
+/* ---------------- booth meta + matrix ---------------- */
+const totalVotersInput = document.getElementById('totalVoters');
+const panchayatMetaStrip = document.getElementById('panchayatMetaStrip');
+const matrixBody = document.getElementById('matrixBody');
+const totalsStrip = document.getElementById('totalsStrip');
+const toastEl = document.getElementById('toast');
+
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=>toastEl.classList.remove('show'), 2600);
+}
+
+function updatePanchayatMeta(){
+  const d=getDistrict(), a=getAssembly(), bl=getBlock(), b=getPanchayat(), t=totalVotersInput.value;
+  if(!d && !a && !bl && !b && !t){
+    panchayatMetaStrip.innerHTML = "चयनित ग्राम पंचायत विवरण यहाँ दिखेगा — जिला, विधानसभा, ब्लॉक, ग्राम पंचायत व कुल मतदाता भरने पर।";
+    return;
+  }
+  panchayatMetaStrip.innerHTML = `जिला: <b>${escapeHtml(d)||'—'}</b> &nbsp;|&nbsp; विधानसभा: <b>${escapeHtml(a)||'—'}</b> &nbsp;|&nbsp; ब्लॉक: <b>${escapeHtml(bl)||'—'}</b> &nbsp;|&nbsp; ग्राम पंचायत: <b>${escapeHtml(b)||'—'}</b> &nbsp;|&nbsp; कुल मतदाता: <b>${t||'—'}</b>`;
+}
+const voterLimitMsg = document.getElementById('voterLimitMsg');
+function checkVoterLimit(){
+  const t = parseFloat(totalVotersInput.value);
+  const over = t > CONFIG.MAX_VOTERS;
+  voterLimitMsg.style.color = over ? 'var(--red)' : '#8A9686';
+  voterLimitMsg.textContent = over
+    ? `सीमा पार: एक ग्राम पंचायत में अधिकतम ${CONFIG.MAX_VOTERS} मतदाता ही दर्ज किए जा सकते हैं।`
+    : `अधिकतम सीमा: ${CONFIG.MAX_VOTERS} मतदाता प्रति ग्राम पंचायत`;
+  totalVotersInput.style.borderColor = over ? 'var(--red)' : '';
+  return !over;
+}
+totalVotersInput.addEventListener('input', ()=>{ checkVoterLimit(); updatePanchayatMeta(); recalcAllPercents(); updateTotals(); });
+
+function addRow(data){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${matrixBody.children.length+1}</td>
+    <td>
+      <select class="caste-select"></select>
+      <input type="text" class="caste-input" placeholder="जाति/समूह का नाम लिखें" style="display:none;margin-top:6px;" value="${escapeHtml(data?.caste)}">
+    </td>
+    <td><input type="number" min="0" max="6000" step="1" class="count-input" placeholder="संख्या" value="${data?.count??''}"></td>
+    <td><input type="number" min="0" max="100" step="0.01" class="percent-input" placeholder="%" value="${data?.percent??''}"></td>
+    <td><input type="text" class="remarks-input" placeholder="टिप्पणी" value="${escapeHtml(data?.remarks)}"></td>
+    <td><button type="button" class="rm-row" title="पंक्ति हटाएं">×</button></td>
+  `;
+  matrixBody.appendChild(tr);
+
+  const countInput = tr.querySelector('.count-input');
+  const percentInput = tr.querySelector('.percent-input');
+
+  countInput.addEventListener('input', ()=>{
+    const total = parseFloat(totalVotersInput.value);
+    if(total>0 && countInput.value!==''){
+      percentInput.value = ((parseFloat(countInput.value)/total)*100).toFixed(2);
+    }
+    updateTotals();
+  });
+  percentInput.addEventListener('input', updateTotals);
+  tr.querySelector('.remarks-input').addEventListener('input', updateTotals);
+  tr.querySelector('.caste-input').addEventListener('input', updateTotals);
+  setupCasteSelect(tr, data?.caste);
+  tr.querySelector('.rm-row').addEventListener('click', ()=>{ tr.remove(); renumberRows(); refreshCasteOptions(); updateTotals(); });
+
+  updateTotals();
+}
+const CASTE_OTHER = '__other__';
+function casteList(){ return CONFIG.CASTES.length ? CONFIG.CASTES : CASTE_DEFAULT; }
+function setupCasteSelect(tr, current){
+  const sel = tr.querySelector('.caste-select');
+  const inp = tr.querySelector('.caste-input');
+  const list = casteList();
+  sel.innerHTML = `<option value="">— जाति चुनें —</option>` +
+    list.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('') +
+    `<option value="${CASTE_OTHER}">अन्य (स्वयं लिखें)</option>`;
+  if(current){
+    if(list.includes(current)){ sel.value = current; inp.style.display='none'; }
+    else { sel.value = CASTE_OTHER; inp.style.display='block'; }
+  } else { inp.value=''; }
+  sel.addEventListener('change', ()=>{
+    if(sel.value === CASTE_OTHER){ inp.value=''; inp.style.display='block'; inp.focus(); }
+    else { inp.style.display='none'; inp.value = sel.value; }
+    inp.dispatchEvent(new Event('input'));
+    refreshCasteOptions();
+  });
+  refreshCasteOptions();
+}
+// एक ही जाति दो बार न चुनी जाए — दूसरी पंक्तियों में चुनी जा चुकी जातियाँ निष्क्रिय
+function refreshCasteOptions(){
+  const rows = [...matrixBody.children];
+  const chosen = rows.map(tr=>tr.querySelector('.caste-select')?.value).filter(v=>v && v!==CASTE_OTHER);
+  rows.forEach(tr=>{
+    const sel = tr.querySelector('.caste-select'); if(!sel) return;
+    [...sel.options].forEach(o=>{
+      o.disabled = !!o.value && o.value!==CASTE_OTHER && o.value!==sel.value && chosen.includes(o.value);
+    });
+  });
+}
+function renumberRows(){ [...matrixBody.children].forEach((tr,i)=>{ tr.children[0].textContent=i+1; }); }
+function recalcAllPercents(){
+  const total = parseFloat(totalVotersInput.value);
+  if(!(total>0)) return;
+  [...matrixBody.children].forEach(tr=>{
+    const c = tr.querySelector('.count-input').value;
+    if(c!=='') tr.querySelector('.percent-input').value = ((parseFloat(c)/total)*100).toFixed(2);
+  });
+}
+function updateTotals(){
+  const total = parseFloat(totalVotersInput.value) || 0;
+  let sumCount=0, sumPercent=0;
+  [...matrixBody.children].forEach(tr=>{
+    const c = parseFloat(tr.querySelector('.count-input').value);
+    const p = parseFloat(tr.querySelector('.percent-input').value);
+    if(!isNaN(c)) sumCount+=c;
+    if(!isNaN(p)) sumPercent+=p;
+  });
+  const remaining = total - sumCount;
+  const ok = total>0 && Math.abs(remaining)<1 && Math.abs(100-sumPercent)<1.5;
+  totalsStrip.className = 'totals-strip ' + (total>0 ? (ok?'totals-ok':'totals-warn') : 'totals-warn');
+  totalsStrip.innerHTML = `
+    <span>दर्ज मतदाता योग: <b>${sumCount}</b></span>
+    <span>दर्ज प्रतिशत योग: <b>${sumPercent.toFixed(2)}%</b></span>
+    <span>कुल मतदाता (ग्राम पंचायत): <b>${total||'—'}</b></span>
+    <span>शेष: <b>${total>0?remaining:'—'}</b></span>
+  `;
+}
+
+document.getElementById('addRowBtn').addEventListener('click', ()=>addRow());
+
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  initDistrict();
+  totalVotersInput.value='';
+  checkVoterLimit();
+  matrixBody.innerHTML='';
+  addRow();
+  updatePanchayatMeta(); updateTotals();
+});
+
+/* ---------------- save / list / export / backend submit ---------------- */
+function collectFormData(){
+  const rows = [...matrixBody.children].map(tr=>({
+    caste: tr.querySelector('.caste-input').value.trim(),
+    count: tr.querySelector('.count-input').value,
+    percent: tr.querySelector('.percent-input').value,
+    remarks: tr.querySelector('.remarks-input').value.trim()
+  })).filter(r=>r.caste || r.count || r.remarks);
+
+  return {
+    district: getDistrict(),
+    assembly: getAssembly(),
+    block: getBlock(),
+    booth: getPanchayat(),
+    totalVoters: totalVotersInput.value,
+    rows,
+    savedAt: new Date().toISOString()
+  };
+}
+
+async function loadSavedRecords(){
+  const keys = await storageListKeys('booth-record:');
+  const items = [];
+  for(const k of keys){
+    const r = await storageGet(k);
+    if(r && r.value){ try{ items.push({key:k, data: JSON.parse(r.value)}); }catch(e){} }
+  }
+  items.sort((a,b)=>(b.data.savedAt||'').localeCompare(a.data.savedAt||''));
+  return items;
+}
+
+function renderSavedList(items){
+  const wrap = document.getElementById('savedList');
+  if(!wrap) return;
+  if(!items.length){ wrap.innerHTML = '<div class="empty-note">अभी तक कोई रिकॉर्ड सहेजा नहीं गया है।</div>'; return; }
+  wrap.innerHTML = '';
+  items.forEach(item=>{
+    const d = item.data;
+    const div = document.createElement('div');
+    div.className = 'saved-item';
+    const dt = d.savedAt ? new Date(d.savedAt).toLocaleString('hi-IN') : '';
+    div.innerHTML = `
+      <div class="meta">
+        जिला: <b>${escapeHtml(d.district)||'—'}</b> · विधानसभा: <b>${escapeHtml(d.assembly)||'—'}</b> · ब्लॉक: <b>${escapeHtml(d.block)||'—'}</b> · ग्राम पंचायत: <b>${escapeHtml(d.booth)||'—'}</b>
+        · कुल मतदाता: <b>${escapeHtml(d.totalVoters)||'—'}</b> · जातियाँ दर्ज: <b>${(d.rows||[]).length}</b>
+        <div class="helptext" style="margin-top:2px;">सहेजा गया: ${dt}</div>
+      </div>
+      <div class="actions">
+        <button type="button" data-act="load">लोड करें</button>
+        <button type="button" data-act="delete">हटाएं</button>
+      </div>
+    `;
+    div.querySelector('[data-act="load"]').addEventListener('click', ()=>loadRecordIntoForm(d));
+    div.querySelector('[data-act="delete"]').addEventListener('click', async ()=>{
+      await storageDelete(item.key);
+      refreshSavedList();
+      showToast('रिकॉर्ड हटाया गया');
+    });
+    wrap.appendChild(div);
+  });
+}
+
+function loadRecordIntoForm(d){
+  initDistrict();
+  if(districtEl.tagName==='SELECT') districtEl.value = d.district || '';
+  else districtEl.value = d.district || '';
+  initAssembly(d.district || '');
+  if(assemblyEl.tagName==='SELECT') assemblyEl.value = d.assembly || '';
+  else assemblyEl.value = d.assembly || '';
+  initBlock(d.district || '', d.assembly || '');
+  if(blockEl.tagName==='SELECT') blockEl.value = d.block || '';
+  else blockEl.value = d.block || '';
+  initPanchayat(d.district || '', d.assembly || '', d.block || '');
+  if(panchayatEl.tagName==='SELECT') panchayatEl.value = d.booth || '';
+  else panchayatEl.value = d.booth || '';
+  totalVotersInput.value = d.totalVoters || '';
+  checkVoterLimit();
+  matrixBody.innerHTML='';
+  (d.rows && d.rows.length ? d.rows : [{}]).forEach(r=>addRow(r));
+  updatePanchayatMeta(); updateTotals();
+  showToast('रिकॉर्ड फॉर्म में लोड किया गया');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+async function refreshSavedList(){ renderSavedList(await loadSavedRecords()); }
+
+async function submitToBackend(d){
+  if(CONFIG.BACKEND==='sheet' && CONFIG.SHEET_WEB_APP_URL){
+    try{
+      await fetch(CONFIG.SHEET_WEB_APP_URL, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify(d)
+      });
+      return {ok:true, mode:'sheet'};
+    }catch(e){ return {ok:false, mode:'sheet', error:e.message}; }
+  }
+  if(CONFIG.BACKEND==='supabase' && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY){
+    try{
+      const res = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/${CONFIG.SUPABASE_TABLE}`, {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'apikey': CONFIG.SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${CONFIG.SUPABASE_ANON_KEY}`,
+          'Prefer':'return=minimal'
+        },
+        body: JSON.stringify({
+          district: d.district, assembly: d.assembly, block: d.block, booth: d.booth,
+          total_voters: Number(d.totalVoters)||null,
+          rows: d.rows, submitted_at: d.savedAt
+        })
+      });
+      return {ok:res.ok, mode:'supabase'};
+    }catch(e){ return {ok:false, mode:'supabase', error:e.message}; }
+  }
+  return {ok:false, mode:'none'};
+}
+
+document.getElementById('saveBtn').addEventListener('click', async ()=>{
+  const d = collectFormData();
+  if(!d.district || !d.assembly || !d.block || !d.booth || !d.totalVoters){
+    showToast('कृपया जिला, विधानसभा, ब्लॉक, ग्राम पंचायत व कुल मतदाता संख्या भरें'); return;
+  }
+  const tv = Number(d.totalVoters);
+  if(!Number.isInteger(tv) || tv < 1 || tv > CONFIG.MAX_VOTERS){
+    showToast(`कुल मतदाता 1 से ${CONFIG.MAX_VOTERS} के बीच होने चाहिए`); return;
+  }
+  if(!d.rows.length){ showToast('कृपया कम से कम एक जाति की प्रविष्टि करें'); return; }
+  const sumCount = d.rows.reduce((n,r)=>n+(parseFloat(r.count)||0),0);
+  if(sumCount > tv){ showToast('जातिवार मतदाताओं का योग कुल मतदाताओं से अधिक है'); return; }
+
+  const key = `booth-record:${d.district}-${d.assembly}-${d.block}-${d.booth}-${Date.now()}`.replace(/\s+/g,'_');
+  await storageSet(key, JSON.stringify(d));
+
+  const result = await submitToBackend(d);
+  if(result.mode==='none'){
+    showToast('रिकॉर्ड इस डिवाइस पर सहेजा गया (बैकएंड कॉन्फ़िगर नहीं है)');
+  } else if(result.ok){
+    showToast('प्रतिक्रिया सफलतापूर्वक सबमिट हुई');
+  } else {
+    showToast('डिवाइस पर सहेजा गया, पर केंद्रीय डेटाबेस भेजने में त्रुटि हुई');
+  }
+  refreshSavedList();
+});
+
+function updateBackendStatus(){
+  const el = document.getElementById('backendStatusStrip');
+  const configured = (CONFIG.BACKEND==='sheet' && CONFIG.SHEET_WEB_APP_URL) ||
+                      (CONFIG.BACKEND==='supabase' && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY);
+  el.innerHTML = configured
+    ? `<span class="backend-badge backend-on">● केंद्रीय डेटाबेस से जुड़ा हुआ (${CONFIG.BACKEND})</span>`
+    : `<span class="backend-badge backend-off">● बैकएंड कॉन्फ़िगर नहीं — डेटा केवल इसी डिवाइस पर सहेजा जाएगा</span>`;
+}
+
+/* ---------------- init ---------------- */
+populateCasteList();
+initDistrict();
+addRow();
+updatePanchayatMeta();
+updateTotals();
+updateBackendStatus();
+refreshSavedList();
+</script>
+
+</body>
+</html>
